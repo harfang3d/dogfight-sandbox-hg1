@@ -16,8 +16,7 @@ The source code and the graphics assets are made available for studying purpose.
 * Graphics : Jean-Marie Lamarche & Bruno Lequitte
 
 ## Screenshots
-![Screenshot #0](https://github.com/harfang3d/game-dogfight/raw/master/screenshots/thumbnails/dogfight-screenshot-00.jpg)
-![Screenshot #1](https://github.com/harfang3d/game-dogfight/raw/master/screenshots/thumbnails/dogfight-screenshot-01.jpg)
+![Screenshot #1](https://github.com/harfang3d/game-dogfight/raw/master/screenshots/thumbnails/dogfight-screenshot-00.jpg)
+![Screenshot #2](https://github.com/harfang3d/game-dogfight/raw/master/screenshots/thumbnails/dogfight-screenshot-01.jpg)
 ![Screenshot #3](https://github.com/harfang3d/game-dogfight/raw/master/screenshots/thumbnails/dogfight-screenshot-03.jpg)
-![Screenshot #4](https://github.com/harfang3d/game-dogfight/raw/master/screenshots/thumbnails/dogfight-screenshot-04.jpg)
-![Screenshot #7](https://github.com/harfang3d/game-dogfight/raw/master/screenshots/thumbnails/dogfight-screenshot-07.jpg)
+![Screenshot #4](https://github.com/harfang3d/game-dogfight/raw/master/screenshots/thumbnails/dogfight-screenshot-07.jpg)
