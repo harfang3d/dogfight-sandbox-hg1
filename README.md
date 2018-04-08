@@ -1,6 +1,6 @@
 # Dogfight (Air to air combat game)
 
-Air to air combat game, created in Python 3 using the HARFANG 3D framework.
+Air to air combat game, created in Python 3 using the [HARFANG 3D framework](https://www.harfang3d.com).
 
 The game features : 
 * Ocean shader
@@ -10,6 +10,12 @@ The game features :
 
 
 The source code and the graphics assets are made available for studying purpose. However, you are free to fork this repository, extend the game or release anything that is based on it.
+
+## How to run Dogfight
+1. Get [Python 3](https://www.python.org/downloads/)
+1. Get [HARFANG 3D](https://www.harfang3d.com/doc/1.0.0/man.Installation.html)
+1. Clone/download this repository
+1. run *main.py*
 
 ## Credits
 * Code : Eric Kernin
