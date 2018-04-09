@@ -1,0 +1,48 @@
+{
+	"Material": {
+		"Shader": "assets/surfaces/diffuse_map_occlusion_map_specular.isl",
+		"MaterialValues": {
+			"Value": {
+				"Name": "diffuse_map",
+				"Type": "tex2D",
+				"Value": "assets/aircraft_carrier/carrier_diffuse_4k.png",
+				"MagFilter": "Anisotropic",
+				"MinFilter": "Anisotropic",
+				"WrapU": "Repeat",
+				"WrapV": "Repeat"
+			},
+			"Value": {
+				"Name": "diffuse_color",
+				"Type": "vec4",
+				"Value": "vec4(0.588000, 0.588000, 0.588000, 1.000000)"
+			},
+			"Value": {
+				"Name": "specular_color",
+				"Type": "vec4",
+				"Value": "vec4(0.010000, 0.010000, 0.010000, 0.010000)"
+			},
+			"Value": {
+				"Name": "self_color",
+				"Type": "vec4",
+				"Value": "vec4(0.000000, 0.000000, 0.000000, 1.000000)"
+			},
+			"Value": {
+				"Name": "glossiness",
+				"Type": "float",
+				"Value": "5.000000"
+			},
+			"Value": {
+				"Name": "reflection",
+				"Type": "float",
+				"Value": "0.000000"
+			},
+			"Value": {
+				"Name": "ao_map",
+				"Type": "tex2D",
+				"Value": "assets/aircraft_carrier/carrier_occlusion_4k.png",
+				"MagFilter": "Anisotropic",
+				"MinFilter": "Anisotropic"
+			}
+		}
+	}
+}

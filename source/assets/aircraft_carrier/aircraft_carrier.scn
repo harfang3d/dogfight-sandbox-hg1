@@ -1,0 +1,150 @@
+{
+	"Scene": {
+		"Components": {
+			"Environment": {
+				"FogColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				}
+			}
+		},
+		"Nodes": {
+			"Node": {
+				"Uid": 1,
+				"Name": "aircraft_carrier",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -0.0,
+							"y": 0.0,
+							"z": -0.7852
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft_carrier/aircraft_carrier.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 2,
+				"Name": "aircraft_carrier_radar",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 27.6573,
+							"y": 38.4192,
+							"z": -36.4564
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": -1.5707,
+							"z": 0.0001
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft_carrier/aircraft_carrier_radar.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 3,
+				"Name": "carrier_aircraft_start_point",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 3.3535,
+							"y": 17.604,
+							"z": -106.5648
+						},
+						"Rotation": {
+							"x": -0.0,
+							"y": -0.1919,
+							"z": -0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft_carrier/carrier_aircraft_start_point.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 4,
+				"Name": "carrier_col_shape.002",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -31.1203,
+							"y": 15.4489,
+							"z": -10.222
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft_carrier/carrier_col_shape.002.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 5,
+				"Name": "carrier_col_shape.001",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -1.3857,
+							"y": 15.4489,
+							"z": 15.3949
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft_carrier/carrier_col_shape.001.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 6,
+				"Name": "carrier_col_shape",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 27.7137,
+							"y": 15.4489,
+							"z": -10.222
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft_carrier/carrier_col_shape.geo"
+					}
+				}
+			}
+		},
+		"NodeHierarchy": {
+			"Link": {
+				"Node": 2,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 3,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 4,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 5,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 6,
+				"Parent": 1
+			}
+		},
+		"Skeletons": {},
+		"State": {}
+	}
+}

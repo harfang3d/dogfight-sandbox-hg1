@@ -1,0 +1,422 @@
+{
+	"Scene": {
+		"Components": {
+			"Environment": {
+				"FogColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				}
+			}
+		},
+		"Nodes": {
+			"Node": {
+				"Uid": 1,
+				"Name": "enemymissile_smoke.16",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -24.5432
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.16.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 2,
+				"Name": "enemymissile_smoke.15",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -23.0995
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.15.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 3,
+				"Name": "enemymissile_smoke.14",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -21.6558
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.14.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 4,
+				"Name": "enemymissile_smoke.13",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -20.2121
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.13.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 5,
+				"Name": "enemymissile_smoke.12",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -18.7684
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.12.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 6,
+				"Name": "enemymissile_smoke.11",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -17.3247
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.11.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 7,
+				"Name": "enemymissile_smoke.10",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -15.881
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.10.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 8,
+				"Name": "enemymissile_smoke.9",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -14.4373
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.9.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 9,
+				"Name": "enemymissile_smoke.8",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -12.9936
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.8.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 10,
+				"Name": "enemymissile_smoke.7",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -11.5499
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.7.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 11,
+				"Name": "enemymissile_smoke.6",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -10.1061
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.6.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 12,
+				"Name": "enemymissile_smoke.5",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -8.6624
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.5.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 13,
+				"Name": "enemymissile_smoke.4",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -7.2187
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.4.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 14,
+				"Name": "enemymissile_smoke.3",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -5.7749
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.3.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 15,
+				"Name": "enemymissile_smoke.2",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -4.3312
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.2.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 16,
+				"Name": "enemymissile_smoke.1",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -2.8874
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.1.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 17,
+				"Name": "enemymissile_smoke.0",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -1.4437
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_smoke.0.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 18,
+				"Name": "enemymissile_low",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": -0.0877
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/enemymissile_low.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 19,
+				"Name": "gun_bullet",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -2.3188,
+							"y": 0.0,
+							"z": 0.3459
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/weaponry/gun_bullet.geo"
+					}
+				}
+			}
+		},
+		"NodeHierarchy": {},
+		"Skeletons": {},
+		"State": {}
+	}
+}

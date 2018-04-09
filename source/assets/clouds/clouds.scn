@@ -1,0 +1,286 @@
+{
+	"Scene": {
+		"Components": {
+			"Environment": {
+				"FogColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				}
+			}
+		},
+		"Nodes": {
+			"Node": {
+				"Uid": 1,
+				"Name": "cloud_particle_1-1024.2",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -13.7633,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_1-1024.2.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 2,
+				"Name": "cloud_particle_1-1024.1",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -12.5588,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_1-1024.1.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 3,
+				"Name": "cloud_particle_1-512.2",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -11.3867,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_1-512.2.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 4,
+				"Name": "cloud_particle_1-512.1",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -10.2527,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_1-512.1.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 5,
+				"Name": "cloud_particle_1-256.2",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -9.0513,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_1-256.2.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 6,
+				"Name": "cloud_particle_1-256.1",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -7.8253,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_1-256.1.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 7,
+				"Name": "cloud_particle_1-128.2",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -6.5651,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_1-128.2.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 8,
+				"Name": "cloud_particle_1-128.1",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -5.332,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_1-128.1.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 9,
+				"Name": "cloud_particle_2",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -2.5138,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_2.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 10,
+				"Name": "cloud_particle_5",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 3.0286,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_5.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 11,
+				"Name": "cloud_particle_5.1",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 1.3658,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_5.1.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 12,
+				"Name": "cloud_particle_3",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -1.2463,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_3.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 13,
+				"Name": "cloud_particle_12",
+				"Components": {
+					"Transform": {
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/clouds/cloud_particle_12.geo"
+					}
+				}
+			}
+		},
+		"NodeHierarchy": {},
+		"Skeletons": {},
+		"State": {}
+	}
+}

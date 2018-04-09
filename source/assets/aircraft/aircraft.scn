@@ -1,0 +1,710 @@
+{
+	"Scene": {
+		"Components": {
+			"Environment": {
+				"FogColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				}
+			}
+		},
+		"Nodes": {
+			"Node": {
+				"Uid": 1,
+				"Name": "dummy_aircraft_fuselage",
+				"Components": {
+					"Transform": {
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_fuselage.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 2,
+				"Name": "aircraft_col_shape.002",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": -0.5292,
+							"z": -2.635
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_col_shape.002.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 3,
+				"Name": "aircraft_col_shape.003",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 1.5002,
+							"y": -2.036,
+							"z": -1.7134
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_col_shape.003.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 4,
+				"Name": "aircraft_col_shape.004",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -1.4998,
+							"y": -2.036,
+							"z": -1.7134
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_col_shape.004.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 5,
+				"Name": "aircraft_col_shape.001",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": -0.5292,
+							"z": 6.3934
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_col_shape.001.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 6,
+				"Name": "aircraft_fuselage",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0002,
+							"y": 0.7054,
+							"z": 2.0428
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_fuselage.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 7,
+				"Name": "pilote_low001",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -0.02,
+							"y": 0.5605,
+							"z": 3.2938
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/pilote_low001.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 8,
+				"Name": "pilote_low",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -0.0323,
+							"y": 0.5844,
+							"z": 4.8715
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/pilote_low.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 9,
+				"Name": "dummy_aircraft_rudder_changeyaw_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -1.6581,
+							"y": 0.9361,
+							"z": -8.939
+						},
+						"Rotation": {
+							"x": 0.5141,
+							"y": 3.1111,
+							"z": 3.0795
+						},
+						"Scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_rudder_changeyaw_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 10,
+				"Name": "aircraft_rudder_changeyaw_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.017,
+							"y": -0.1186,
+							"z": 0.1543
+						},
+						"Rotation": {
+							"x": -0.5148,
+							"y": -3.1415,
+							"z": 3.0875
+						},
+						"Scale": {
+							"x": 1.0001,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_rudder_changeyaw_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 11,
+				"Name": "dummy_aircraft_rudder_changeyaw_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 1.6582,
+							"y": 0.9361,
+							"z": -8.939
+						},
+						"Rotation": {
+							"x": -0.514,
+							"y": 0.0306,
+							"z": -0.0621
+						},
+						"Scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_rudder_changeyaw_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 12,
+				"Name": "aircraft_rudder_changeyaw_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -0.0169,
+							"y": 0.1187,
+							"z": -0.1542
+						},
+						"Rotation": {
+							"x": 0.5149,
+							"y": 0.0001,
+							"z": 0.0542
+						},
+						"Scale": {
+							"x": 1.0001,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_rudder_changeyaw_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 13,
+				"Name": "dummy_aircraft_elevator_changepitch_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -2.3258,
+							"y": -0.7528,
+							"z": -5.5128
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_elevator_changepitch_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 14,
+				"Name": "aircraft_elevator_changepitch_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -1.4959,
+							"y": 0.0035,
+							"z": -1.4447
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_elevator_changepitch_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 15,
+				"Name": "dummy_aircraft_elevator_changepitch_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 2.326,
+							"y": -0.7528,
+							"z": -5.5128
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_elevator_changepitch_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 16,
+				"Name": "aircraft_elevator_changepitch_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 1.496,
+							"y": 0.0035,
+							"z": -1.4447
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_elevator_changepitch_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 17,
+				"Name": "dummy_aircraft_configurable_wing_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -3.3558,
+							"y": -0.2719,
+							"z": -0.9791
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_configurable_wing_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 18,
+				"Name": "aircraft_col_shape_wing_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -2.844,
+							"y": 0.0008,
+							"z": -2.3311
+						},
+						"Rotation": {
+							"x": -0.0,
+							"y": -0.2007,
+							"z": 0.0001
+						},
+						"Scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_col_shape_wing_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 19,
+				"Name": "aircraft_configurable_wing_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -2.8101,
+							"y": 0.0146,
+							"z": -1.86
+						},
+						"Scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_configurable_wing_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 20,
+				"Name": "dummy_aircraft_aileron_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.1872,
+							"y": -0.0138,
+							"z": -1.0356
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 3.0038,
+							"z": -3.1415
+						},
+						"Scale": {
+							"x": 1.0001,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_aileron_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 21,
+				"Name": "aircraft_aileron_l",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0801,
+							"y": -0.0214,
+							"z": 0.1575
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 3.0038,
+							"z": 3.1416
+						},
+						"Scale": {
+							"x": 1.0001,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_aileron_l.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 22,
+				"Name": "dummy_aircraft_configurable_wing_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 3.3566,
+							"y": -0.2719,
+							"z": -0.9791
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_configurable_wing_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 23,
+				"Name": "aircraft_configurable_wing_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 2.8095,
+							"y": 0.0146,
+							"z": -1.86
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_configurable_wing_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 24,
+				"Name": "dummy_aircraft_aileron_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -0.1872,
+							"y": -0.0138,
+							"z": -1.0356
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.1379,
+							"z": -0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_aileron_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 25,
+				"Name": "aircraft_aileron_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -0.0798,
+							"y": 0.0215,
+							"z": -0.1574
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": -0.1378,
+							"z": 0.0001
+						},
+						"Scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_aileron_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 26,
+				"Name": "aircraft_col_shape_wing_r",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 2.8491,
+							"y": 0.0008,
+							"z": -2.3311
+						},
+						"Rotation": {
+							"x": -0.0,
+							"y": 0.2008,
+							"z": -0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/aircraft_col_shape_wing_r.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 27,
+				"Name": "dummy_aircraft_slot.1",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 3.6194,
+							"y": -0.1077,
+							"z": -0.6696
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_slot.1.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 28,
+				"Name": "dummy_aircraft_slot.4",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -3.0492,
+							"y": -0.5815,
+							"z": -0.4406
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_slot.4.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 29,
+				"Name": "dummy_aircraft_slot.3",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 3.0493,
+							"y": -0.5815,
+							"z": -0.4406
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_slot.3.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 30,
+				"Name": "dummy_aircraft_slot.2",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -3.6193,
+							"y": -0.1077,
+							"z": -0.6696
+						}
+					},
+					"Object": {
+						"Geometry": "assets/aircraft/dummy_aircraft_slot.2.geo"
+					}
+				}
+			}
+		},
+		"NodeHierarchy": {
+			"Link": {
+				"Node": 2,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 3,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 4,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 5,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 6,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 7,
+				"Parent": 6
+			},
+			"Link": {
+				"Node": 8,
+				"Parent": 6
+			},
+			"Link": {
+				"Node": 9,
+				"Parent": 6
+			},
+			"Link": {
+				"Node": 10,
+				"Parent": 9
+			},
+			"Link": {
+				"Node": 11,
+				"Parent": 6
+			},
+			"Link": {
+				"Node": 12,
+				"Parent": 11
+			},
+			"Link": {
+				"Node": 13,
+				"Parent": 6
+			},
+			"Link": {
+				"Node": 14,
+				"Parent": 13
+			},
+			"Link": {
+				"Node": 15,
+				"Parent": 6
+			},
+			"Link": {
+				"Node": 16,
+				"Parent": 15
+			},
+			"Link": {
+				"Node": 17,
+				"Parent": 6
+			},
+			"Link": {
+				"Node": 18,
+				"Parent": 17
+			},
+			"Link": {
+				"Node": 19,
+				"Parent": 17
+			},
+			"Link": {
+				"Node": 20,
+				"Parent": 19
+			},
+			"Link": {
+				"Node": 21,
+				"Parent": 20
+			},
+			"Link": {
+				"Node": 22,
+				"Parent": 6
+			},
+			"Link": {
+				"Node": 23,
+				"Parent": 22
+			},
+			"Link": {
+				"Node": 24,
+				"Parent": 23
+			},
+			"Link": {
+				"Node": 25,
+				"Parent": 24
+			},
+			"Link": {
+				"Node": 26,
+				"Parent": 22
+			},
+			"Link": {
+				"Node": 27,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 28,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 29,
+				"Parent": 1
+			},
+			"Link": {
+				"Node": 30,
+				"Parent": 1
+			}
+		},
+		"Skeletons": {},
+		"State": {}
+	}
+}

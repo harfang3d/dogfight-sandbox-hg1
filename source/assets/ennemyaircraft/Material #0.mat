@@ -1,0 +1,32 @@
+{
+	"Material": {
+		"Shader": "@core/surfaces/diffuse.isl",
+		"MaterialValues": {
+			"Value": {
+				"Name": "diffuse_color",
+				"Type": "vec4",
+				"Value": "vec4(0.470400, 0.470400, 0.470400, 1.000000)"
+			},
+			"Value": {
+				"Name": "specular_color",
+				"Type": "vec4",
+				"Value": "vec4(0.000000, 0.000000, 0.000000, 1.000000)"
+			},
+			"Value": {
+				"Name": "self_color",
+				"Type": "vec4",
+				"Value": "vec4(0.000000, 0.000000, 0.000000, 1.000000)"
+			},
+			"Value": {
+				"Name": "glossiness",
+				"Type": "float",
+				"Value": "0.030637"
+			},
+			"Value": {
+				"Name": "reflection",
+				"Type": "float",
+				"Value": "0.000000"
+			}
+		}
+	}
+}

@@ -1,0 +1,126 @@
+{
+    "name": "Clouds",
+    "bitmap_clouds_file": "assets/textures/clouds_map_5.png",
+    "map_scale": [
+        5400.0,
+        5200.0
+    ],
+    "map_position": [
+        0.0,
+        0.0
+    ],
+    "layers": [
+        {
+            "name": "layer_1",
+            "billboard_type": 1,
+            "particles_scale_range": [
+                107.03900146484375,
+                925.0580444335938
+            ],
+            "num_particles": [
+                1000
+            ],
+            "num_geometries": 1,
+            "particles_files_names": [
+                "assets/clouds/cloud_particle_12.geo"
+            ],
+            "distance_min": 0,
+            "distance_max": 1500.0,
+            "tile_size": 180.18600463867188,
+            "margin": 1.3010001182556152,
+            "focal_margin": 0.6020000576972961,
+            "absorption": 0.0005500000342726708,
+            "altitude": 1000.0,
+            "altitude_floor": 0.0,
+            "alpha_threshold": 0.3100000023841858,
+            "scale_falloff": 2.4050002098083496,
+            "alpha_scale_falloff": 1.0,
+            "altitude_falloff": 5.700000286102295,
+            "perturbation": 184.84800720214844
+        },
+        {
+            "name": "layer_2",
+            "billboard_type": 0,
+            "particles_scale_range": [
+                38.871002197265625,
+                1000.800048828125
+            ],
+            "num_particles": [
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125
+            ],
+            "num_geometries": 8,
+            "particles_files_names": [
+                "assets/clouds/cloud_particle_1-128.1.geo",
+                "assets/clouds/cloud_particle_1-128.2.geo",
+                "assets/clouds/cloud_particle_1-256.1.geo",
+                "assets/clouds/cloud_particle_1-256.2.geo",
+                "assets/clouds/cloud_particle_1-512.1.geo",
+                "assets/clouds/cloud_particle_1-512.2.geo",
+                "assets/clouds/cloud_particle_1-1024.1.geo",
+                "assets/clouds/cloud_particle_1-1024.2.geo"
+            ],
+            "distance_min": 1250.0,
+            "distance_max": 6500.0,
+            "tile_size": 350.3000183105469,
+            "margin": 1.3010001182556152,
+            "focal_margin": 0.8210000395774841,
+            "absorption": 0.0005500000342726708,
+            "altitude": 1000.0,
+            "altitude_floor": -0.012000000104308128,
+            "alpha_threshold": 0.17400000989437103,
+            "scale_falloff": 1.027000069618225,
+            "alpha_scale_falloff": 3.819000244140625,
+            "altitude_falloff": 11.906000137329102,
+            "perturbation": 153.3330078125
+        },
+        {
+            "name": "layer_3",
+            "billboard_type": 0,
+            "particles_scale_range": [
+                1182.58203125,
+                4871.23828125
+            ],
+            "num_particles": [
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125
+            ],
+            "num_geometries": 8,
+            "particles_files_names": [
+                "assets/clouds/cloud_particle_1-128.1.geo",
+                "assets/clouds/cloud_particle_1-128.2.geo",
+                "assets/clouds/cloud_particle_1-256.1.geo",
+                "assets/clouds/cloud_particle_1-256.2.geo",
+                "assets/clouds/cloud_particle_1-512.1.geo",
+                "assets/clouds/cloud_particle_1-512.2.geo",
+                "assets/clouds/cloud_particle_1-1024.1.geo",
+                "assets/clouds/cloud_particle_1-1024.2.geo"
+            ],
+            "distance_min": 7500.0,
+            "distance_max": 15000.0,
+            "tile_size": 750.0,
+            "margin": 1.3010001182556152,
+            "focal_margin": 0.8210000395774841,
+            "absorption": 0.0002500000037252903,
+            "altitude": 1000.0,
+            "altitude_floor": -0.23000000417232513,
+            "alpha_threshold": 0.05300000309944153,
+            "scale_falloff": 1.477000117301941,
+            "alpha_scale_falloff": 10.0,
+            "altitude_falloff": 43.54100036621094,
+            "perturbation": 173.9390106201172
+        }
+    ]
+}

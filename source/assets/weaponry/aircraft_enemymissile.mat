@@ -1,0 +1,53 @@
+{
+	"Material": {
+		"Shader": "@core/surfaces/diffuse_map_specular_map_normal_map.isl",
+		"MaterialValues": {
+			"Value": {
+				"Name": "diffuse_map",
+				"Type": "tex2D",
+				"Value": "assets/weaponry/diffuse_enemymissile.png",
+				"WrapU": "Repeat",
+				"WrapV": "Repeat"
+			},
+			"Value": {
+				"Name": "specular_map",
+				"Type": "tex2D",
+				"Value": "assets/weaponry/specular_missile.png",
+				"WrapU": "Repeat",
+				"WrapV": "Repeat"
+			},
+			"Value": {
+				"Name": "normal_map",
+				"Type": "tex2D",
+				"Value": "assets/weaponry/normal_missile.png",
+				"WrapU": "Repeat",
+				"WrapV": "Repeat"
+			},
+			"Value": {
+				"Name": "diffuse_color",
+				"Type": "vec4",
+				"Value": "vec4(0.588235, 0.588235, 0.588235, 1.000000)"
+			},
+			"Value": {
+				"Name": "specular_color",
+				"Type": "vec4",
+				"Value": "vec4(0.306000, 0.306000, 0.306000, 1.000000)"
+			},
+			"Value": {
+				"Name": "self_color",
+				"Type": "vec4",
+				"Value": "vec4(0.000000, 0.000000, 0.000000, 1.000000)"
+			},
+			"Value": {
+				"Name": "glossiness",
+				"Type": "float",
+				"Value": "0.049020"
+			},
+			"Value": {
+				"Name": "reflection",
+				"Type": "float",
+				"Value": "1.000000"
+			}
+		}
+	}
+}

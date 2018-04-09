@@ -1,0 +1,39 @@
+{
+	"Scene": {
+		"Components": {
+			"Environment": {
+				"FogColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				}
+			}
+		},
+		"Nodes": {
+			"Node": {
+				"Uid": 1,
+				"Name": "island",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0001,
+							"y": 59.6184,
+							"z": 216.3927
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/island/island.geo"
+					}
+				}
+			}
+		},
+		"NodeHierarchy": {},
+		"Skeletons": {},
+		"State": {}
+	}
+}

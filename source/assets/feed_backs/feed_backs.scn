@@ -1,0 +1,55 @@
+{
+	"Scene": {
+		"Components": {
+			"Environment": {
+				"FogColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				}
+			}
+		},
+		"Nodes": {
+			"Node": {
+				"Uid": 1,
+				"Name": "bullet_impact",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 1.6876
+						},
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/feed_backs/bullet_impact.geo"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 2,
+				"Name": "feed_back_explode",
+				"Components": {
+					"Transform": {
+						"Rotation": {
+							"x": 0.0001,
+							"y": 0.0,
+							"z": 0.0
+						}
+					},
+					"Object": {
+						"Geometry": "assets/feed_backs/feed_back_explode.geo"
+					}
+				}
+			}
+		},
+		"NodeHierarchy": {},
+		"Skeletons": {},
+		"State": {}
+	}
+}
