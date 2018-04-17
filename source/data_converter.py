@@ -75,8 +75,7 @@ def load_object(plus,geometry_file_name, name,duplicate_material=False):
     trans = hg.Transform()
     node.AddComponent(trans)
     obj = hg.Object()
-    geo = hg.Geometry()
-    hg.LoadGeometry(geo,geometry_file_name)
+    geo = hg.LoadGeometry(geometry_file_name)
     if geo is not None:
         geo = renderSystem.CreateGeometry(geo,False)
         if duplicate_material:
