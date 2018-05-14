@@ -13,7 +13,9 @@ The source code and the graphics assets are made available for studying purpose.
 
 ## How to run Dogfight
 1. Get [Python 3](https://www.python.org/downloads/)
-1. Get [HARFANG 3D](https://www.harfang3d.com/doc/1.0.0/man.Installation.html)
+1. Get HARFANG 3D
+	1. Either download it from the [HARFANG website](https://www.harfang3d.com/downloads) and follow the [install instructions](https://www.harfang3d.com/doc/1.0.0/man.Installation.html)
+	1. Or, using PIP in the command line, type '*pip install harfang*'
 1. Clone/download this repository
 1. run *main.py*
 

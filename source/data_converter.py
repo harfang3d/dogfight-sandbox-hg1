@@ -70,6 +70,7 @@ def duplicate_node_object(original_node:hg.Node, name):
 	return node
 
 def load_object(plus,geometry_file_name, name,duplicate_material=False):
+<<<<<<< HEAD
 	renderSystem = plus.GetRenderSystem()
 	node = hg.Node(name)
 	trans = hg.Transform()
@@ -86,3 +87,20 @@ def load_object(plus,geometry_file_name, name,duplicate_material=False):
 		obj.SetGeometry(geo)
 		node.AddComponent(obj)
 	return node,geo
+=======
+    renderSystem = plus.GetRenderSystem()
+    node = hg.Node(name)
+    trans = hg.Transform()
+    node.AddComponent(trans)
+    obj = hg.Object()
+    geo = hg.LoadGeometry(geometry_file_name)
+    if geo is not None:
+        geo = renderSystem.CreateGeometry(geo,False)
+        if duplicate_material:
+            material = geo.GetMaterial(0)
+            material = material.Clone()
+            geo.SetMaterial(0,material)
+        obj.SetGeometry(geo)
+        node.AddComponent(obj)
+    return node,geo
+>>>>>>> 994b444d111e0c7accf8a19f595bb3c1cdd00030
