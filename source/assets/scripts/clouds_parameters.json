@@ -6,8 +6,12 @@
         5200.0
     ],
     "map_position": [
-        0.0,
-        0.0
+        10473.6572265625,
+        23520.107421875
+    ],
+    "v_wind": [
+        13.74000072479248,
+        53.435001373291016
     ],
     "layers": [
         {
@@ -22,21 +26,23 @@
             ],
             "num_geometries": 1,
             "particles_files_names": [
-                "assets/clouds/cloud_particle_12.geo"
+                "assets/clouds_v2/cloud_particle_12.geo"
             ],
             "distance_min": 0,
             "distance_max": 1500.0,
             "tile_size": 180.18600463867188,
             "margin": 1.3010001182556152,
             "focal_margin": 0.6020000576972961,
-            "absorption": 0.0005500000342726708,
+            "absorption": 0.0005600000172853469,
             "altitude": 1000.0,
             "altitude_floor": 0.0,
             "alpha_threshold": 0.3100000023841858,
             "scale_falloff": 2.4050002098083496,
             "alpha_scale_falloff": 1.0,
             "altitude_falloff": 5.700000286102295,
-            "perturbation": 184.84800720214844
+            "perturbation": 184.84800720214844,
+            "particles_rot_speed": 1.2980000972747803,
+            "morph_level": 0.12200000882148743
         },
         {
             "name": "layer_2",
@@ -57,28 +63,30 @@
             ],
             "num_geometries": 8,
             "particles_files_names": [
-                "assets/clouds/cloud_particle_1-128.1.geo",
-                "assets/clouds/cloud_particle_1-128.2.geo",
-                "assets/clouds/cloud_particle_1-256.1.geo",
-                "assets/clouds/cloud_particle_1-256.2.geo",
-                "assets/clouds/cloud_particle_1-512.1.geo",
-                "assets/clouds/cloud_particle_1-512.2.geo",
-                "assets/clouds/cloud_particle_1-1024.1.geo",
-                "assets/clouds/cloud_particle_1-1024.2.geo"
+                "assets/clouds_v2/cloud_particle_1-128.1.geo",
+                "assets/clouds_v2/cloud_particle_1-128.2.geo",
+                "assets/clouds_v2/cloud_particle_1-256.1.geo",
+                "assets/clouds_v2/cloud_particle_1-256.2.geo",
+                "assets/clouds_v2/cloud_particle_1-512.1.geo",
+                "assets/clouds_v2/cloud_particle_1-512.2.geo",
+                "assets/clouds_v2/cloud_particle_1-1024.1.geo",
+                "assets/clouds_v2/cloud_particle_1-1024.2.geo"
             ],
             "distance_min": 1250.0,
             "distance_max": 6500.0,
             "tile_size": 350.3000183105469,
             "margin": 1.3010001182556152,
             "focal_margin": 0.8210000395774841,
-            "absorption": 0.0005500000342726708,
+            "absorption": 0.0008600000292062759,
             "altitude": 1000.0,
-            "altitude_floor": -0.012000000104308128,
+            "altitude_floor": -0.07600000500679016,
             "alpha_threshold": 0.17400000989437103,
-            "scale_falloff": 1.027000069618225,
+            "scale_falloff": 1.0820000171661377,
             "alpha_scale_falloff": 3.819000244140625,
-            "altitude_falloff": 11.906000137329102,
-            "perturbation": 153.3330078125
+            "altitude_falloff": 14.437000274658203,
+            "perturbation": 153.3330078125,
+            "particles_rot_speed": 0.534000039100647,
+            "morph_level": 0.12200000882148743
         },
         {
             "name": "layer_3",
@@ -99,14 +107,14 @@
             ],
             "num_geometries": 8,
             "particles_files_names": [
-                "assets/clouds/cloud_particle_1-128.1.geo",
-                "assets/clouds/cloud_particle_1-128.2.geo",
-                "assets/clouds/cloud_particle_1-256.1.geo",
-                "assets/clouds/cloud_particle_1-256.2.geo",
-                "assets/clouds/cloud_particle_1-512.1.geo",
-                "assets/clouds/cloud_particle_1-512.2.geo",
-                "assets/clouds/cloud_particle_1-1024.1.geo",
-                "assets/clouds/cloud_particle_1-1024.2.geo"
+                "assets/clouds_v2/cloud_particle_1-128.1.geo",
+                "assets/clouds_v2/cloud_particle_1-128.2.geo",
+                "assets/clouds_v2/cloud_particle_1-256.1.geo",
+                "assets/clouds_v2/cloud_particle_1-256.2.geo",
+                "assets/clouds_v2/cloud_particle_1-512.1.geo",
+                "assets/clouds_v2/cloud_particle_1-512.2.geo",
+                "assets/clouds_v2/cloud_particle_1-1024.1.geo",
+                "assets/clouds_v2/cloud_particle_1-1024.2.geo"
             ],
             "distance_min": 7500.0,
             "distance_max": 15000.0,
@@ -120,7 +128,9 @@
             "scale_falloff": 1.477000117301941,
             "alpha_scale_falloff": 10.0,
             "altitude_falloff": 43.54100036621094,
-            "perturbation": 173.9390106201172
+            "perturbation": 173.9390106201172,
+            "particles_rot_speed": 0.2600000202655792,
+            "morph_level": 0.12200000882148743
         }
     ]
 }

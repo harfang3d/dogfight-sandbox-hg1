@@ -1,11 +1,11 @@
 {
 	"Material": {
-		"Shader": "assets/surfaces/cloud_particle_2D.isl",
+		"Shader": "assets/surfaces/cloud_particle_2D_v2.isl",
 		"MaterialValues": {
 			"Value": {
 				"Name": "diffuse_map",
 				"Type": "tex2D",
-				"Value": "assets/clouds/cloud_512-3.png",
+				"Value": "assets/clouds_v2/cloud_512-5.png",
 				"WrapU": "Repeat",
 				"WrapV": "Repeat"
 			},
@@ -28,6 +28,11 @@
 				"Name": "glossiness",
 				"Type": "float",
 				"Value": "0.150123"
+			},
+			"Value": {
+				"Name": "reflection",
+				"Type": "float",
+				"Value": "0.000000"
 			}
 		}
 	}

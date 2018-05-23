@@ -51,6 +51,16 @@ class MathsSupp:
 		return 1 / (distance / 10 + 1)
 
 
+	@classmethod
+	def get_mix_color_value(cls,f,colors):
+		if f < 1:
+			fc = f * (len(colors) - 1)
+			i = int(fc)
+			fc -= i
+			return colors[i] * (1 - fc) + colors[i + 1] * fc
+		else:
+			return colors[-1]
+
 # ===================================================================================
 #          Génère une valeur temporelle aléatoire, lissée selon un bruit de Perlin
 #          La valeur renvoyée est comprise entre -1 et 1

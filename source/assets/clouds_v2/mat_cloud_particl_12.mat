@@ -1,18 +1,18 @@
 {
 	"Material": {
-		"Shader": "assets/surfaces/cloud_particle_2D.isl",
+		"Shader": "assets/surfaces/cloud_particle_v2.isl",
 		"MaterialValues": {
 			"Value": {
 				"Name": "diffuse_map",
 				"Type": "tex2D",
-				"Value": "assets/clouds/cloud_512-7.png",
+				"Value": "assets/clouds_v2/cloud_512-2.png",
 				"WrapU": "Repeat",
 				"WrapV": "Repeat"
 			},
 			"Value": {
 				"Name": "diffuse_color",
 				"Type": "vec4",
-				"Value": "vec4(0.000000, 0.000000, 0.000000, 1.000000)"
+				"Value": "vec4(0.800000, 0.800000, 0.800000, 1.000000)"
 			},
 			"Value": {
 				"Name": "specular_color",
@@ -28,6 +28,11 @@
 				"Name": "glossiness",
 				"Type": "float",
 				"Value": "0.150123"
+			},
+			"Value": {
+				"Name": "reflection",
+				"Type": "float",
+				"Value": "0.000000"
 			}
 		}
 	}

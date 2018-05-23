@@ -22,7 +22,7 @@ from Machines import *
 import json
 from math import radians, degrees
 from HUD import *
-from Clouds import *
+from Clouds_v2 import *
 from debug_displays import *
 
 
@@ -32,7 +32,7 @@ from debug_displays import *
 
 class Main:
 	resolution = hg.Vector2(1920, 1080)
-	antialiasing = 4
+	antialiasing = 2
 	screenMode = hg.Fullscreen
 
 	main_node = None
@@ -260,7 +260,7 @@ def init_scene(plus):
 	json_script = hg.GetFilesystem().FileToString("assets/scripts/clouds_parameters.json")
 	if json_script != "":
 		clouds_parameters = json.loads(json_script)
-		Main.clouds = Clouds(plus, Main.scene, Main.resolution, clouds_parameters)
+		Main.clouds = Clouds(plus, Main.scene, Main.scene.GetNode("Sun"), Main.resolution, clouds_parameters)
 
 	Main.main_node = Main.camera.GetTransform().GetParent()
 
@@ -478,10 +478,13 @@ def gui_interface_sea_render(sea_render: SeaRender, scene, fps):
 
 
 link_altitudes = True
+link_morphs = True
+clouds_altitude = 1000
+clouds_morph_level = 0.1
 
 
-def gui_clouds(scene, cloud: Clouds):
-	global link_altitudes
+def gui_clouds(scene: hg.Scene, cloud: Clouds):
+	global link_altitudes, link_morphs, clouds_altitude, clouds_morph_level
 
 	if hg.ImGuiBegin("Clouds Settings"):
 		if hg.ImGuiButton("Load clouds parameters"):
@@ -492,17 +495,28 @@ def gui_clouds(scene, cloud: Clouds):
 
 		hg.ImGuiSeparator()
 
-		d, f = hg.ImGuiSliderFloat("Far Clouds scale x", Main.sea_render.clouds_scale.x, 100, 10000)
-		if d:
-			Main.sea_render.clouds_scale.x = f
+		hg.ImGuiText("Map position: X=" + str(cloud.map_position.x))
+		hg.ImGuiText("Map position: Y=" + str(cloud.map_position.y))
 
-		d, f = hg.ImGuiSliderFloat("Far Clouds scale y", Main.sea_render.clouds_scale.y, 0, 1)
+		"""
+		d, f = hg.ImGuiSliderFloat("Far Clouds scale x", sky_render.clouds_scale.x, 100, 10000)
 		if d:
-			Main.sea_render.clouds_scale.y = f
+			sky_render.clouds_scale.x = f
 
-		d, f = hg.ImGuiSliderFloat("Far Clouds scale z", Main.sea_render.clouds_scale.z, 100, 10000)
+		d, f = hg.ImGuiSliderFloat("Far Clouds scale y", sky_render.clouds_scale.y, 0, 1)
 		if d:
-			Main.sea_render.clouds_scale.z = f
+			sky_render.clouds_scale.y = f
+
+		d, f = hg.ImGuiSliderFloat("Far Clouds scale z", sky_render.clouds_scale.z, 100, 10000)
+		if d:
+			sky_render.clouds_scale.z = f
+
+
+		d, f = hg.ImGuiSliderFloat("Far Clouds absorption", sky_render.clouds_absorption, 0, 1)
+		if d:
+			sky_render.clouds_absorption = f
+
+		"""
 
 		d, f = hg.ImGuiSliderFloat("Clouds scale x", cloud.map_scale.x, 100, 10000)
 		if d:
@@ -511,18 +525,32 @@ def gui_clouds(scene, cloud: Clouds):
 		if d:
 			cloud.set_map_scale_z(f)
 
-		d, f = hg.ImGuiSliderFloat("Far Clouds altitude", Main.sea_render.clouds_altitude, 100, 10000)
+		d, f = hg.ImGuiSliderFloat("Wind speed x", cloud.v_wind.x, -1000, 1000)
 		if d:
-			Main.sea_render.clouds_altitude = f
-			if link_altitudes:
-				for layer in cloud.layers:
-					layer.set_altitude(f)
-		d, f = hg.ImGuiSliderFloat("Far Clouds absorption", Main.sea_render.clouds_absorption, 0, 1)
+			cloud.v_wind.x = f
+
+		d, f = hg.ImGuiSliderFloat("Wind speed z", cloud.v_wind.y, -1000, 1000)
 		if d:
-			Main.sea_render.clouds_absorption = f
+			cloud.v_wind.y = f
 
 		d, f = hg.ImGuiCheckbox("Link layers altitudes", link_altitudes)
 		if d: link_altitudes = f
+		d, f = hg.ImGuiCheckbox("Link layers morph levels", link_morphs)
+		if d: link_morphs = f
+
+		d, f = hg.ImGuiSliderFloat("Clouds altitude", clouds_altitude, 100, 10000)
+		if d:
+			clouds_altitude = f
+			if link_altitudes:
+				for layer in cloud.layers:
+					layer.set_altitude(f)
+
+		d, f = hg.ImGuiSliderFloat("Clouds morph level", clouds_morph_level, 0, 1)
+		if d:
+			clouds_morph_level = f
+			if link_morphs:
+				for layer in cloud.layers:
+					layer.morph_level = f
 
 		for layer in cloud.layers:
 			hg.ImGuiSeparator()
@@ -534,6 +562,14 @@ def gui_clouds(scene, cloud: Clouds):
 def gui_layer(layer: CloudsLayer):
 	nm = layer.name
 	hg.ImGuiText(layer.name)
+
+	d, f = hg.ImGuiSliderFloat(nm + " particles rotation speed", layer.particles_rot_speed, -10, 10)
+	if d:
+		layer.set_particles_rot_speed(f)
+
+	d, f = hg.ImGuiSliderFloat(nm + " particles morph level", layer.morph_level, -1, 1)
+	if d:
+		layer.morph_level = f
 
 	d, f = hg.ImGuiSliderFloat(nm + " Absorption factor", layer.absorption * 100, 0.01, 10)
 	if d:
@@ -872,7 +908,7 @@ def control_views():
 			decrement_satellite_view_size()
 
 
-def custom_flow(plus, t):
+def custom_flow(plus, t,dts):
 	Main.sea_render_script.SetEnabled(False)
 
 	# Reflection:
@@ -900,7 +936,7 @@ def custom_flow(plus, t):
 	Main.render_to_texture.end_render(plus)
 
 	if Main.render_volumetric_clouds:
-		Main.clouds.update(t, Main.scene, Main.resolution)
+		Main.clouds.update(t, dts,Main.scene, Main.resolution)
 
 	# Fusion:
 	renderer.EnableDepthTest(False)
@@ -910,7 +946,7 @@ def custom_flow(plus, t):
 	Main.render_to_texture.draw_renderTexture_fusion_HSV(plus)
 
 
-def renderScript_flow(plus, t):
+def renderScript_flow(plus, t,dts):
 	Main.sea_render_script.SetEnabled(True)
 	if Main.sea_render.render_scene_reflection and not Main.satellite_view:
 		# Main.sea_render.enable_render_sea(False)
@@ -931,7 +967,7 @@ def renderScript_flow(plus, t):
 
 	# Volumetric clouds:
 	if Main.render_volumetric_clouds:
-		Main.clouds.update(t, Main.scene, Main.resolution)
+		Main.clouds.update(t,dts, Main.scene, Main.resolution)
 		Main.scene.Commit()
 		Main.scene.WaitCommit()
 
@@ -944,16 +980,16 @@ def renderScript_flow(plus, t):
 	Main.render_to_texture.draw_renderTexture_HSV(plus)
 
 
-def render_flow(plus):
+def render_flow(plus,delta_t):
 	t = hg.time_to_sec_f(plus.GetClock())
-
+	dts=hg.time_to_sec_f(delta_t)
 	# if not Main.sea_render.render_scene_reflection:
 	#    Main.scene.SetCurrentCamera(Main.camera)
 
 	if Main.custom_flow:
-		custom_flow(plus, t)
+		custom_flow(plus, t,dts)
 	else:
-		renderScript_flow(plus, t)
+		renderScript_flow(plus, t,dts)
 
 
 def start_music(filename):
@@ -1141,7 +1177,7 @@ def start_phase(plus, delta_t):
 			return init_main_phase()
 
 	# rendering:
-	render_flow(plus)
+	render_flow(plus,delta_t)
 
 	return start_phase
 
@@ -1198,8 +1234,8 @@ def main_phase(plus, delta_t):
 		update_satellite_camera(Main.satellite_camera, Main.resolution.x / Main.resolution.y, dts)
 	Main.camera_matrix = update_camera_tracking(camera, dts, noise_level)
 	Main.camera_v_move = camera_move * dts
-	# Main.fps.UpdateAndApplyToNode(camera, delta_t)
-	# Main.camera_matrix = None
+	#Main.fps.UpdateAndApplyToNode(camera, delta_t)
+	#Main.camera_matrix = None
 
 	# Kinetics:
 	fade_in_delay = 1.
@@ -1227,7 +1263,7 @@ def main_phase(plus, delta_t):
 	Main.p2_sfx.update_sfx(Main, dts)
 
 	# rendering:
-	render_flow(plus)
+	render_flow(plus,delta_t)
 
 	if Main.fadout_flag:
 		Main.fadout_cptr += dts
@@ -1313,7 +1349,7 @@ def end_phase(plus, delta_t):
 	Main.p2_sfx.update_sfx(Main, dts)
 
 	# rendering:
-	render_flow(plus)
+	render_flow(plus,delta_t)
 
 	start = False
 	if Main.controller is not None:

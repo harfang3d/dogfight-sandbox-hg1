@@ -100,12 +100,7 @@ class ParticlesEngine:
 		if len(self.colors) == 1:
 			c = self.colors[0]
 		else:
-			f = particle.age / particle.delay
-			if f < 1:
-				fc = f * (len(self.colors) - 1)
-				i = int(fc)
-				fc -= i
-				c = self.colors[i] * (1 - fc) + self.colors[i + 1] * fc
+			c=MathsSupp.get_mix_color_value(particle.age / particle.delay,self.colors)
 		particle.node.GetObject().GetGeometry().GetMaterial(0).SetFloat4(self.color_label, c.r, c.g, c.b, c.a)
 
 	def update_kinetics(self, position: hg.Vector3, direction: hg.Vector3, v0: hg.Vector3, axisY: hg.Vector3, dts):

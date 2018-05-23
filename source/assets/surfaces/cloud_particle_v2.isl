@@ -1,7 +1,7 @@
 in {
 	tex2D diffuse_map;
-	vec4 teint;
-	float scale;
+	float alpha_cloud;
+	
 	vec3 sun_dir;
 	vec3 sun_color;
 	vec3 ambient_color;
@@ -10,6 +10,8 @@ in {
 	float altitude_min;
 	float altitude_max;
 	float altitude_falloff;
+	float rot_speed;
+	vec2 pos0;
 }
 
 variant {
@@ -20,16 +22,48 @@ variant {
 			vec3 vertice_pos;
 			vec3 vertice_world;
 			vec3 model_pos;
+			float scale;
 		}
 
+		global %{
+			vec3 rot_hash=vec3(133.464, 4713.3, 1435.1);
+			
+			vec3 rotate(vec3 point, vec3 axe, float angle)
+			{
+				vec3 axe_n = normalize(axe);
+				float dot_prod = point.x * axe_n.x + point.y * axe_n.y + point.z * axe_n.z;
+				float cos_angle = cos(angle);
+				float sin_angle = sin(angle);
+
+				return vec3(
+					cos_angle * point.x + sin_angle * (axe_n.y * point.z - axe_n.z * point.y) + (1 - cos_angle) * dot_prod * axe_n.x,
+					cos_angle * point.y + sin_angle * (axe_n.z * point.x - axe_n.x * point.z) + (1 - cos_angle) * dot_prod * axe_n.y,
+					cos_angle * point.z + sin_angle * (axe_n.x * point.y - axe_n.y * point.x) + (1 - cos_angle) * dot_prod * axe_n.z
+					);
+			}
+		%}
 		source %{
+			
 			v_uv = vUV0;
-			vec3 face_normal = vNormalViewMatrix * vNormal;
+			
+			model_pos = (_mtx_mul(vModelMatrix, vec4(0,0,0, 1.0))).xyz;
+			vec3 axe_rot=normalize(vec3(pos0.x,model_pos.y,pos0.y)*rot_hash);
+			float rot_angle=6.282*(sin(dot(pos0,rot_hash.xz)));
+			rot_angle+=abs(rot_angle)/rot_angle*(0.05+rot_angle*0.01)*vClock*rot_speed;
+			
+			vec3 normal=rotate(vNormal,axe_rot,rot_angle);
+			
+			vec3 face_normal = vNormalViewMatrix * normal;
 			vec3 v_model_pos = (_mtx_mul(vModelViewMatrix, vec4(0,0,0, 1.0))).xyz;
 			front_face = abs(dot(face_normal,normalize(v_model_pos)));
-			vertice_pos = vNormalMatrix * (vPosition * scale);
-			model_pos = (_mtx_mul(vModelMatrix, vec4(0,0,0, 1.0))).xyz;
+			//vec3 scale=vec3(vModelMatrix[0][0],vModelMatrix[1][1],vModelMatrix[2][2]);
+			scale=vModelMatrix[0][0];
+			
+			vertice_pos=rotate(vPosition,axe_rot,rot_angle);
+			%position%=vec4(vertice_pos,1.);
+			vertice_pos*=scale;
 			vertice_world = model_pos+vertice_pos;
+			
 		%}
 	}
 
@@ -79,8 +113,8 @@ variant {
 		%}
 		
 		source %{
-			vec4 c_texture = texture2D(diffuse_map, v_uv) * vec4(teint.rgb,1.);
-			vec3 c_cloud=c_texture.rgb*teint.rgb;
+			vec4 c_texture = texture2D(diffuse_map, v_uv);
+			vec3 c_cloud=c_texture.rgb;//*vLightDiffuseColor.rgb;
 			vec2 v_ray=sphere_intersect(vertice_pos,-sun_dir,scale/2.);
 			float g=0.6;
 			vec3 v_frag = vertice_world-vViewPosition.xyz;
@@ -97,7 +131,7 @@ variant {
 			
 			%diffuse% = vec3(0,0,0);
 			%specular% = vec3(0.,0.,0.);
-			float a = c_texture.a*teint.a*front_face*altitude_alpha; //*a_dist;
+			float a = c_texture.a*alpha_cloud*front_face*altitude_alpha; //*a_dist;
 			%opacity% = a;
 			%constant% = mix(ambient_color*c_cloud,sun_color*c_cloud,absorption*powder*HG*na);
 		%}

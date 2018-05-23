@@ -14,8 +14,6 @@ import harfang as hg
 from math import radians, pi, sin, cos
 from data_converter import *
 
-from random import uniform
-
 
 class ViewTrame:
 	def __init__(self, distance_min=0, distance_max=1000, tile_size=10, margin=1., focal_margin=1.1):
@@ -36,6 +34,7 @@ class ViewTrame:
 		self.dAB, self.dBC, self.dAC = hg.IntVector2(), hg.IntVector2(), hg.IntVector2()
 		self.detAB, self.detBC, self.detAC = 0, 0, 0
 		self.obs = None
+		self.obs2D = None
 		self.vertices = []
 		self.case = 0
 		self.send_position = self.default_send
@@ -43,12 +42,12 @@ class ViewTrame:
 	def default_send(self, position: hg.Vector2):
 		pass
 
-	def update_triangle(self, resolution, camera: hg.Camera):
-		self.obs = camera.GetTransform().GetPosition()
+	def update_triangle(self, resolution, position:hg.Vector3, direction:hg.Vector3, zoomFactor):
+		self.obs = position
 		self.obs2D = hg.Vector2(self.obs.x, self.obs.z)
-		dir3D = camera.GetTransform().GetWorld().GetZ()
+		dir3D = direction
 		dir2D = hg.Vector2(dir3D.x, dir3D.z).Normalized()
-		focal_distance = camera.GetCamera().GetZoomFactor() * self.focal_margin
+		focal_distance = zoomFactor * self.focal_margin
 		view_width = 2 * resolution.x / resolution.y  # 2 because screen xmin=-1, screen xmax=1
 
 		distAB = self.distance_max * view_width / focal_distance
@@ -193,7 +192,8 @@ class CloudsLayer(ViewTrame):
 			"margin": self.margin, "focal_margin": self.focal_margin, "absorption": self.absorption,
 			"altitude": self.altitude, "altitude_floor": self.altitude_floor, "alpha_threshold": self.alpha_threshold,
 			"scale_falloff": self.scale_falloff, "alpha_scale_falloff": self.alpha_scale_falloff,
-			"altitude_falloff": self.altitude_falloff, "perturbation": self.perturbation, }
+			"altitude_falloff": self.altitude_falloff, "perturbation": self.perturbation,
+		    "particles_rot_speed": self.particles_rot_speed, "morph_level": self.morph_level}
 		return dico
 
 	def __setstate__(self, state):
@@ -228,6 +228,9 @@ class CloudsLayer(ViewTrame):
 		self.alpha_scale_falloff = parameters["alpha_scale_falloff"]
 		self.altitude_falloff = parameters["altitude_falloff"]
 		self.perturbation = parameters["perturbation"]
+		self.particles_rot_speed=0.1
+		if "particles_rot_speed" in parameters:
+			self.particles_rot_speed=parameters["particles_rot_speed"]
 
 		# map:
 		self.map_size = None
@@ -246,7 +249,13 @@ class CloudsLayer(ViewTrame):
 		self.cam_pos = None
 		self.t = 0
 
+		self.morph_level=1.2
+		if "morph_level" in parameters:
+			self.morph_level=parameters["morph_level"]
+		self.offset=hg.Vector2(0,0) #Used for clouds wind displacement
+
 		self.renderable_system = scene.GetRenderableSystem()
+		self.smooth_alpha_threshold_step=0.1
 
 	@staticmethod
 	def create_particles(plus, scene, file_name, num, name):
@@ -254,13 +263,14 @@ class CloudsLayer(ViewTrame):
 		for i in range(num):
 			node, geo = load_object(plus, file_name, name + "." + str(i), True)
 			# scene.AddNode(node)
-			particles.append([geo, hg.Matrix4()])  # node.SetEnabled(False)
+			particles.append([geo, hg.Matrix4(),geo.GetMaterial(0)])
 		return particles
 
-	def set_map(self, bitmap: hg.Picture, map_scale: hg.Vector2):
+	def set_map(self, bitmap: hg.Picture, map_scale: hg.Vector2, map_position:hg.Vector2):
 		self.bitmap_clouds = bitmap
 		self.map_scale = map_scale
 		self.map_size = hg.IntVector2(self.bitmap_clouds.GetWidth(), self.bitmap_clouds.GetHeight())
+		self.offset=map_position
 
 	def set_environment(self, sun_dir, sun_color, ambient_color):
 		self.sun_dir = sun_dir
@@ -268,11 +278,26 @@ class CloudsLayer(ViewTrame):
 		self.ambient_color = ambient_color
 		self.update_particles()
 
+	def update_lighting(self, sun_dir, sun_color, ambient_color):
+		self.sun_dir = sun_dir
+		self.sun_color = sun_color
+		self.ambient_color = ambient_color
+		self.update_particles_lighting()
+
 	def clear_particles(self):
 		return
 		for particles in self.particles:
 			for particle in particles:
 				particle.SetEnabled(False)
+
+	def update_particles_lighting(self):
+		for i in range(0, self.num_geometries):
+			particles = self.particles[i]
+			for particle in particles:
+				material = particle[0].GetMaterial(0)
+				material.SetFloat3("sun_dir", self.sun_dir.x, self.sun_dir.y, self.sun_dir.z)
+				material.SetFloat3("sun_color", self.sun_color.r, self.sun_color.g, self.sun_color.b)
+				material.SetFloat3("ambient_color", self.ambient_color.r, self.ambient_color.g, self.ambient_color.b)
 
 	def update_particles(self):
 		altitude_min = self.altitude - self.particles_scale_range.y / 2
@@ -285,21 +310,29 @@ class CloudsLayer(ViewTrame):
 			particles = self.particles[i]
 			c = hg.Color(1., 1., 1., 1.)
 			for particle in particles:
-				s = particle[1].GetScale().x
 				material = particle[0].GetMaterial(0)
-				material.SetFloat4("teint", c.r, c.g, c.b, c.a)
-				material.SetFloat("scale", s)
-				material.SetFloat3("sun_dir", self.sun_dir.x, self.sun_dir.y, self.sun_dir.z)
-				material.SetFloat3("sun_color", self.sun_color.r, self.sun_color.g, self.sun_color.b)
-				material.SetFloat3("ambient_color", self.ambient_color.r, self.ambient_color.g, self.ambient_color.b)
-				material.SetFloat("absorption_factor", self.absorption)
-				material.SetFloat("layer_dist", self.distance_min)
-				material.SetFloat("altitude_min", altitude_min)
-				material.SetFloat("altitude_max", altitude_max)
-				material.SetFloat("altitude_falloff", self.altitude_falloff)
+				t = material.IsReadyOrFailed()
+				if t:
+					material.SetFloat("alpha_cloud", c.a)
+					material.SetFloat3("sun_dir", self.sun_dir.x, self.sun_dir.y, self.sun_dir.z)
+					material.SetFloat3("sun_color", self.sun_color.r, self.sun_color.g, self.sun_color.b)
+					material.SetFloat3("ambient_color", self.ambient_color.r, self.ambient_color.g, self.ambient_color.b)
+					material.SetFloat("absorption_factor", self.absorption)
+					material.SetFloat("layer_dist", self.distance_min)
+					material.SetFloat("altitude_min", altitude_min)
+					material.SetFloat("altitude_max", altitude_max)
+					material.SetFloat("altitude_falloff", self.altitude_falloff)
+					material.SetFloat("rot_speed",self.particles_rot_speed)
+
+
+
 
 	def set_altitude(self, value):
 		self.altitude = value
+		self.update_particles()
+
+	def set_particles_rot_speed(self,value):
+		self.particles_rot_speed = value
 		self.update_particles()
 
 	def set_distance_min(self, value):
@@ -352,7 +385,8 @@ class CloudsLayer(ViewTrame):
 		c = c12 * (1 - yf) + c34 * yf
 		return c
 
-	def update(self, t, camera, resolution):
+	def update(self, t, camera, resolution,map_position:hg.Vector2):
+		self.offset=map_position
 		self.t = t
 		self.num_tiles = 0
 		self.particle_index_prec = self.particle_index
@@ -365,21 +399,17 @@ class CloudsLayer(ViewTrame):
 		self.rot_hash = hg.Vector3(133.464, 4713.3, 1435.1)
 
 		self.send_position = self.set_particle
-		self.update_triangle(resolution, camera)
+		self.update_triangle(resolution, camera.GetTransform().GetPosition()+hg.Vector3(self.offset.x,0,self.offset.y),
+		                     camera.GetTransform().GetWorld().GetZ(), camera.GetCamera().GetZoomFactor())
 		self.fill_triangle()
-		return
-		# Hide unused particles:
-		for i in range(0, self.num_geometries):
-			if self.particle_index_prec[i] > self.particle_index[i]:
-				for j in range(self.particle_index[i], self.particle_index_prec[i] + 1):
-					self.particles[i][j].SetEnabled(False)
+
 
 	def set_particle(self, position: hg.Vector2):
 		self.num_tiles += 1
 		# x = int(position.x / self.map_scale.x * self.map_size.x)
 		# y = int(position.y / self.map_scale.y * self.map_size.y)
 		# c = self.bitmap_clouds.GetPixelRGBA(int(x % self.map_size.x), int(y % self.map_size.y))
-		c = self.get_pixel_bilinear(position / self.map_scale)
+		c = self.get_pixel_bilinear((position+self.offset*self.morph_level) / self.map_scale)
 
 		scale_factor = pow(c.x, self.scale_falloff)
 		# id = int(max(0,scale_factor - self.layer_2_alpha_threshold) / (1 - self.layer_2_alpha_threshold) * 7)
@@ -388,28 +418,22 @@ class CloudsLayer(ViewTrame):
 
 			particle = self.particles[id][self.particle_index[id]]
 			if c.x > self.alpha_threshold:
+				smooth_alpha_threshold=min(1,(c.x-self.alpha_threshold)/self.smooth_alpha_threshold_step)
 				s = self.particles_scale_range.x + scale_factor * self.scale_size
-				# particle.SetEnabled(True)
-				material = particle[0].GetMaterial(0)
-				py = self.altitude + s * self.altitude_floor + (self.perturbation * (1 - c.x) * sin(c.x * 213))
-				pos = hg.Vector3(position.x, py, position.y)
+				py = self.altitude + s * self.altitude_floor + (self.perturbation * (1 - c.x) * sin(position.x * 213))
+				pos = hg.Vector3(position.x-self.offset.x, py, position.y-self.offset.y)
 
 				d = (hg.Vector2(pos.x, pos.z) - hg.Vector2(self.cam_pos.x, self.cam_pos.z)).Len()
 				layer_n = abs(max(0, min(1, (d - self.distance_min) / (self.distance_max - self.distance_min))) * 2 - 1)
-				self.pc.a = (1 - min(pow(layer_n, 8), 1)) * (1 - pow(1. - scale_factor, self.alpha_scale_falloff))
+				self.pc.a = (1 - min(pow(layer_n, 8), 1)) * (1 - pow(1. - scale_factor, self.alpha_scale_falloff)) * smooth_alpha_threshold
 
-				if self.billboard_type == CloudsLayer.billboard2D:
-					mat_rot = (hg.Matrix3.LookAt((self.cam_pos - pos).Normalized()))
-				elif self.billboard_type == CloudsLayer.billboard3D:
-					mat_rot = hg.Matrix3.FromEuler(self.rot_hash * c.x + hg.Vector3(0.1, 0.2, 0.3) * (1 - c.x) * self.t)
-
-				particle[1] = hg.Matrix4(mat_rot)
+				particle[1] = hg.Matrix4(hg.Matrix3.Identity)
 				particle[1].SetScale(hg.Vector3(s, s, s))
-				material.SetFloat("scale", s)
 
 				particle[1].SetTranslation(pos)
-
-				material.SetFloat4("teint", self.pc.r, self.pc.g, self.pc.b, self.pc.a)
+				material = particle[2]
+				material.SetFloat2("pos0", position.x, position.y)
+				material.SetFloat("alpha_cloud", self.pc.a)
 
 				self.renderable_system.DrawGeometry(particle[0], particle[1])
 
@@ -418,7 +442,7 @@ class CloudsLayer(ViewTrame):
 
 class Clouds:
 	def __setstate__(self, state):
-		vec2_list = ["map_scale", "map_position"]
+		vec2_list = ["map_scale", "map_position", "v_wind"]
 		for k in vec2_list:
 			if k in state: state[k] = list_to_vec2(state[k])
 		if "layers" in state:
@@ -440,10 +464,10 @@ class Clouds:
 			layers_list.append(layer.__getstate__())
 		dico = {"name": self.name, "bitmap_clouds_file": self.bitmap_clouds_file,
 			"map_scale": vec2_to_list(self.map_scale), "map_position": vec2_to_list(self.map_position),
-			"layers": layers_list}
+		    "v_wind":vec2_to_list(self.v_wind),"layers": layers_list}
 		return dico
 
-	def __init__(self, plus, scene, resolution, parameters):
+	def __init__(self, plus, scene, main_light, resolution, parameters):
 
 		self.layers = []
 		for layer_params in parameters["layers"]:
@@ -452,16 +476,17 @@ class Clouds:
 		self.name = parameters["name"]
 		self.t = 0
 		self.cam_pos = None
-		renderer = plus.GetRenderer()
 		self.bitmap_clouds = hg.Picture()
 		self.bitmap_clouds_file = parameters["bitmap_clouds_file"]
 		hg.LoadPicture(self.bitmap_clouds, self.bitmap_clouds_file)
-		self.clouds_map = renderer.NewTexture(self.name + ".cloudsMap", self.bitmap_clouds)
 		self.map_size = hg.IntVector2(self.bitmap_clouds.GetWidth(), self.bitmap_clouds.GetHeight())
 		self.map_scale = list_to_vec2(parameters["map_scale"])
 		self.map_position = list_to_vec2(parameters["map_position"])
-		self.sun_light = scene.GetNode("Sun")
+		self.sun_light = main_light
 		self.ambient_color = scene.GetEnvironment().GetAmbientColor() * scene.GetEnvironment().GetAmbientIntensity()
+		self.v_wind=hg.Vector2(60,60)
+		if "v_wind" in parameters:
+			self.v_wind=list_to_vec2(parameters["v_wind"])
 
 		self.update_layers_cloud_map()
 		self.update_layers_environment()
@@ -474,7 +499,14 @@ class Clouds:
 
 	def update_layers_cloud_map(self):
 		for layer in self.layers:
-			layer.set_map(self.bitmap_clouds, self.map_scale)
+			layer.set_map(self.bitmap_clouds, self.map_scale, self.map_position)
+
+	def update_layers_lighting(self):
+		sun_dir = self.sun_light.GetTransform().GetWorld().GetZ()
+		lt = self.sun_light.GetLight()
+		sun_color = lt.GetDiffuseColor() * lt.GetDiffuseIntensity()
+		for layer in self.layers:
+			layer.update_lighting(sun_dir, sun_color, self.ambient_color)
 
 	def update_layers_environment(self):
 		sun_dir = self.sun_light.GetTransform().GetWorld().GetZ()
@@ -510,9 +542,10 @@ class Clouds:
 		for layer in self.layers:
 			layer.update_particles()
 
-	def update(self, t, scene, resolution):
+	def update(self, t, delta_t, scene, resolution):
 		self.t = t
 		camera = scene.GetCurrentCamera()
 		self.cam_pos = camera.GetTransform().GetPosition()
+		self.map_position+=self.v_wind*delta_t
 		for layer in self.layers:
-			layer.update(t, camera, resolution)
+			layer.update(t, camera, resolution, self.map_position)
