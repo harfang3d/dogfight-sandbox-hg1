@@ -19,6 +19,7 @@ class RenderRect:
 		renderer = plus.GetRenderer()
 
 		# create primitive index buffer
+		'''
 		data = hg.BinaryData()
 		data.WriteInt16s([0, 1, 2, 0, 2, 3])
 
@@ -47,9 +48,12 @@ class RenderRect:
 
 		self.vertex = renderer.NewBuffer()
 		renderer.CreateBuffer(self.vertex, data, hg.GpuBufferVertex)
+		'''
 
 	def draw(self, plus):
-		hg.DrawBuffers(plus.GetRenderer(), 6, self.indices, self.vertex, self.vertex_layout)
+		render_system=plus.GetRenderSystem()
+		render_system.DrawFullscreenQuad(render_system.GetViewportToInternalResolutionRatio())
+		#hg.DrawBuffers(plus.GetRenderer(), 6, self.indices, self.vertex, self.vertex_layout)
 
 
 class RenderToTexture(RenderRect):

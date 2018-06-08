@@ -31,9 +31,9 @@ from debug_displays import *
 # =====================================================================================================
 
 class Main:
-	resolution = hg.Vector2(1920, 1080)
+	resolution = hg.Vector2(1600, 900)
 	antialiasing = 2
-	screenMode = hg.Fullscreen
+	screenMode = hg.Windowed
 
 	main_node = None
 
