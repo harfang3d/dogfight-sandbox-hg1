@@ -97,9 +97,12 @@ class Main:
 	render_volumetric_clouds = True
 
 	show_debug_displays = False
-	display_gui = False
+	display_gui = True
 
 	satellite_view = False
+
+	HSL_postProcess=None
+	MotionBlur_postProcess=None
 
 
 # =====================================================================================================
@@ -166,6 +169,15 @@ def init_game(plus):
 
 	# ---- Camera:
 	Main.scene.SetCurrentCamera(Main.camera)
+
+	# ---- PostProcess:
+	Main.MotionBlur_postProcess=hg.MotionBlurPostProcess()
+	Main.MotionBlur_postProcess.SetBlurRadius(60)
+	Main.MotionBlur_postProcess.SetExposure(5)
+	Main.camera.AddComponent(Main.MotionBlur_postProcess)
+
+	Main.HSL_postProcess=hg.HSLPostProcess()
+	Main.camera.AddComponent(Main.HSL_postProcess)
 
 
 def set_p1_missiles_smoke_color(color: hg.Color):
@@ -631,16 +643,12 @@ def gui_post_rendering():
 		if hg.ImGuiButton("Save post-render settings"):
 			Main.render_to_texture.save_parameters()
 
-		d, f = hg.ImGuiSliderFloat("Contrast", Main.render_to_texture.contrast, -1, 1)
-		if d: Main.render_to_texture.contrast = f
-		d, f = hg.ImGuiSliderFloat("Contrast threshold", Main.render_to_texture.contrast_threshold, 0, 1)
-		if d: Main.render_to_texture.contrast_threshold = f
-		d, f = hg.ImGuiSliderFloat("hue", Main.render_to_texture.hue, 0, 360)
-		if d: Main.render_to_texture.hue = f
-		d, f = hg.ImGuiSliderFloat("saturation", Main.render_to_texture.saturation, 0, 1)
-		if d: Main.render_to_texture.saturation = f
-		d, f = hg.ImGuiSliderFloat("value", Main.render_to_texture.value, 0, 1)
-		if d: Main.render_to_texture.value = f
+		d, f = hg.ImGuiSliderFloat("Hue", Main.HSL_postProcess.GetH(), -1, 1)
+		if d: Main.HSL_postProcess.SetH(f)
+		d, f = hg.ImGuiSliderFloat("Saturation", Main.HSL_postProcess.GetS(), 0, 1)
+		if d: Main.HSL_postProcess.SetS(f)
+		d, f = hg.ImGuiSliderFloat("Luminance", Main.HSL_postProcess.GetL(), 0, 1)
+		if d: Main.HSL_postProcess.SetL(f)
 
 	hg.ImGuiEnd()
 
@@ -962,8 +970,8 @@ def renderScript_flow(plus, t,dts):
 	renderer.EnableDepthWrite(True)
 	renderer.EnableBlending(True)
 	renderer = plus.GetRenderer()
-	renderer.SetRenderTarget(Main.render_to_texture.render_target_1)
-	# renderer.ClearRenderTarget()
+	#renderer.SetRenderTarget(Main.render_to_texture.render_target_1)
+	renderer.ClearRenderTarget()
 
 	# Volumetric clouds:
 	if Main.render_volumetric_clouds:
@@ -972,13 +980,6 @@ def renderScript_flow(plus, t,dts):
 		Main.scene.WaitCommit()
 
 	plus.UpdateScene(Main.scene)
-	# Filters:
-	renderer.EnableDepthTest(False)
-	renderer.EnableDepthWrite(False)
-	renderer.EnableBlending(True)
-	renderer.ClearRenderTarget()
-	Main.render_to_texture.draw_renderTexture_HSV(plus)
-
 
 def render_flow(plus,delta_t):
 	t = hg.time_to_sec_f(plus.GetClock())
@@ -1064,10 +1065,11 @@ def init_start_phase():
 	Main.scene.SetCurrentCamera(Main.camera)
 	Main.satellite_view = False
 
-	Main.render_to_texture.load_parameters()
+	Main.render_to_texture.load_parameters()        # !!! A SUPPRIMER ?
 
-	Main.render_to_texture.saturation = 0.
-	Main.render_to_texture.value = 0
+	Main.HSL_postProcess.SetS(0)
+	Main.HSL_postProcess.SetL(0)
+
 
 	plus.UpdateScene(Main.scene)
 	Main.fading_cptr = 0
@@ -1103,11 +1105,11 @@ def start_phase(plus, delta_t):
 	Main.fading_cptr = min(fade_in_delay, Main.fading_cptr + dts)
 
 	# Main.render_to_texture.saturation = Main.fading_cptr / fade_in_delay *0.1
-	Main.render_to_texture.value = Main.fading_cptr / fade_in_delay
+	Main.HSL_postProcess.SetL(Main.fading_cptr / fade_in_delay)
 
 	if Main.fading_cptr >= fade_in_delay:
 		# Start infos:
-		f = Main.render_to_texture.value
+		f = Main.HSL_postProcess.GetL()
 		plus.Text2D(514 / 1600 * Main.resolution.x, 771 / 900 * Main.resolution.y, "GET READY",
 					0.08 * Main.resolution.y, hg.Color(1., 0.9, 0.3, 1) * f)
 
@@ -1185,8 +1187,8 @@ def start_phase(plus, delta_t):
 def init_main_phase():
 	stop_music()
 
-	Main.render_to_texture.value = 1
-	Main.render_to_texture.saturation = 0.
+	Main.HSL_postProcess.SetL(1)
+	Main.HSL_postProcess.SetS(0)
 
 	set_track_view(back_view)
 
@@ -1241,7 +1243,7 @@ def main_phase(plus, delta_t):
 	fade_in_delay = 1.
 	if Main.fading_cptr < fade_in_delay:
 		Main.fading_cptr = min(fade_in_delay, Main.fading_cptr + dts)
-		Main.render_to_texture.saturation = Main.fading_cptr / fade_in_delay * 0.75
+		Main.HSL_postProcess.SetS( Main.fading_cptr / fade_in_delay * 0.75)
 
 	animations(dts)
 	Main.carrier.update_kinetics(Main.scene, dts)
@@ -1270,9 +1272,9 @@ def main_phase(plus, delta_t):
 		fadout_delay = 1
 		f = Main.fadout_cptr / fadout_delay
 		Main.audio.SetMasterVolume(1 - f)
-		Main.render_to_texture.value = max(0, 1 - f)
+		Main.HSL_postProcess.SetL(max(0, 1 - f))
 		if Main.fadout_cptr > fadout_delay:
-			Main.render_to_texture.value = 0
+			Main.HSL_postProcess.SetL(0)
 			return init_start_phase()
 
 	back = False
@@ -1299,7 +1301,7 @@ def init_end_phase():
 	Main.p1_aircraft.IA_activated = True
 	Main.scene.SetCurrentCamera(Main.camera)
 	Main.satellite_view = False
-	Main.fading_start_saturation = Main.render_to_texture.saturation
+	Main.fading_start_saturation = Main.HSL_postProcess.GetS()
 	if Main.p1_success:
 		start_success_music()
 	else:
@@ -1327,7 +1329,7 @@ def end_phase(plus, delta_t):
 		s = 72 / 900
 	if Main.fading_cptr < fade_in_delay:
 		Main.fading_cptr = min(fade_in_delay, Main.fading_cptr + dts)
-		Main.render_to_texture.saturation = (1 - Main.fading_cptr / fade_in_delay) * Main.fading_start_saturation
+		Main.HSL_postProcess.SetS((1 - Main.fading_cptr / fade_in_delay) * Main.fading_start_saturation)
 
 	animations(dts)
 	Main.carrier.update_kinetics(Main.scene, dts)
@@ -1336,7 +1338,7 @@ def end_phase(plus, delta_t):
 
 	# Hud
 
-	f = Main.render_to_texture.value
+	f = Main.HSL_postProcess.GetL()
 	plus.Text2D(x * Main.resolution.x, 611 / 900 * Main.resolution.y, msg, s * Main.resolution.y,
 				hg.Color(1., 0.9, 0.3, 1) * f)
 
@@ -1364,9 +1366,9 @@ def end_phase(plus, delta_t):
 		fadout_delay = 1
 		f = Main.fadout_cptr / fadout_delay
 		Main.audio.SetMasterVolume(1 - f)
-		Main.render_to_texture.value = max(0, 1 - f)
+		Main.HSL_postProcess.SetL(max(0, 1 - f))
 		if Main.fadout_cptr > fadout_delay:
-			Main.render_to_texture.value = 0
+			Main.HSL_postProcess.SetL(0)
 			return init_start_phase()
 
 	return end_phase
