@@ -113,7 +113,8 @@ def update_machine_gun_sight(Main,plus,aircraft:Aircraft):
 	aZ=mat.GetZ()
 	pos=aircraft.gun_position * mat
 	p=pos+aZ*500
-	p2D=get_2d(Main.scene.GetCurrentCamera(),plus.GetRenderer(),p)
+	Main.gun_sight_2D=get_2d(Main.scene.GetCurrentCamera(),plus.GetRenderer(),p)
+	p2D=Main.gun_sight_2D
 	if p2D is not None:
 		plus.Sprite2D(p2D.x*Main.resolution.x, p2D.y*Main.resolution.y, 64/1600*Main.resolution.x, "assets/sprites/machine_gun_sight.png", hg.Color(0.5,1,0.5,Main.render_to_texture.value))
 

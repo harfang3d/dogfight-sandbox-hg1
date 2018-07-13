@@ -49,5 +49,5 @@
     "clouds_altitude": 3098.55712890625,
     "clouds_absorption": 0.5450000166893005,
     "reflect_offset": 53.87200164794922,
-    "render_scene_reflection": false
+    "render_scene_reflection": true
 }

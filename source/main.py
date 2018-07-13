@@ -97,12 +97,23 @@ class Main:
 	render_volumetric_clouds = True
 
 	show_debug_displays = False
-	display_gui = True
+	display_gui = False
 
 	satellite_view = False
 
 	HSL_postProcess=None
 	MotionBlur_postProcess=None
+	RadialBlur_postProcess=None
+
+	flag_MotionBlur=False
+
+	radial_blur_strength = 0.5
+	deceleration_blur_strength=1/6
+	acceleration_blur_strength=1/3
+
+	gun_sight_2D=None
+
+	current_view=None
 
 
 # =====================================================================================================
@@ -172,12 +183,13 @@ def init_game(plus):
 
 	# ---- PostProcess:
 	Main.MotionBlur_postProcess=hg.MotionBlurPostProcess()
-	Main.MotionBlur_postProcess.SetBlurRadius(60)
-	Main.MotionBlur_postProcess.SetExposure(5)
-	Main.camera.AddComponent(Main.MotionBlur_postProcess)
-
 	Main.HSL_postProcess=hg.HSLPostProcess()
+	Main.RadialBlur_postProcess=hg.RadialBlurPostProcess()
+
+	Main.camera.AddComponent(Main.RadialBlur_postProcess)
 	Main.camera.AddComponent(Main.HSL_postProcess)
+
+	post_processes_load_parameters()
 
 
 def set_p1_missiles_smoke_color(color: hg.Color):
@@ -199,6 +211,9 @@ def set_p1_gun_color(color: hg.Color):
 def set_p2_gun_color(color: hg.Color):
 	Main.ennemy_bullets.colors = [color]
 
+#----------------------------------------------------------------------------------------------
+#                                   Load / Save game parameters
+#----------------------------------------------------------------------------------------------
 
 def load_scene_parameters(file_name="assets/scripts/scene_parameters.json"):
 	json_script = hg.GetFilesystem().FileToString(file_name)
@@ -219,7 +234,8 @@ def save_scene_parameters(output_filename="assets/scripts/scene_parameters.json"
 		"skylight_color": color_to_list(Main.ligth_sky.GetLight().GetDiffuseColor()),
 		"ambient_color": color_to_list(environment.GetAmbientColor()),
 		"ambient_intensity": environment.GetAmbientIntensity(), "render_clouds": Main.render_volumetric_clouds,
-		"custom_flow": Main.custom_flow}
+		"custom_flow": Main.custom_flow
+	                     }
 	json_script = json.dumps(script_parameters, indent=4)
 	return hg.GetFilesystem().StringToFile(output_filename, json_script)
 
@@ -232,16 +248,61 @@ def load_game_parameters(file_name="assets/scripts/dogfight.json"):
 		set_p2_missiles_smoke_color(list_to_color(script_parameters["p2_missiles_smoke_color"]))
 		set_p1_gun_color(list_to_color(script_parameters["p1_gun_color"]))
 		set_p2_gun_color(list_to_color(script_parameters["p2_gun_color"]))
-
+		Main.radial_blur_strength=script_parameters["radial_blur_strength"]
+		Main.deceleration_blur_strength=script_parameters["deceleration_blur_strength"]
+		Main.acceleration_blur_strength=script_parameters["acceleration_blur_strength"]
 
 def save_game_parameters(output_filename="assets/scripts/dogfight.json"):
 	script_parameters = {"p1_missiles_smoke_color": color_to_list(Main.p1_missiles_smoke_color),
 		"p2_missiles_smoke_color": color_to_list(Main.p2_missiles_smoke_color),
 		"p1_gun_color": color_to_list(Main.bullets.colors[0]),
-		"p2_gun_color": color_to_list(Main.ennemy_bullets.colors[0])}
+		"p2_gun_color": color_to_list(Main.ennemy_bullets.colors[0]),
+		"radial_blur_strength": Main.radial_blur_strength,
+		"deceleration_blur_strength": Main.deceleration_blur_strength,
+		"acceleration_blur_strength": Main.acceleration_blur_strength
+	                     }
 	json_script = json.dumps(script_parameters, indent=4)
 	return hg.GetFilesystem().StringToFile(output_filename, json_script)
 
+
+def post_processes_save_parameters(output_filename="assets/scripts/post_render.json"):
+	script_parameters = {"hue": Main.HSL_postProcess.GetH(),
+						 "saturation": Main.HSL_postProcess.GetS(),
+						 "value":Main.HSL_postProcess.GetL(),
+						 "flag_MotionBlur":Main.flag_MotionBlur,
+						 "mb_blur_radius":Main.MotionBlur_postProcess.GetBlurRadius(),
+						 "mb_exposure":Main.MotionBlur_postProcess.GetExposure(),
+						 "mb_sample_count":Main.MotionBlur_postProcess.GetSampleCount()
+						 }
+	json_script = json.dumps(script_parameters, indent=4)
+	return hg.GetFilesystem().StringToFile(output_filename, json_script)
+
+
+def post_processes_load_parameters(file_name="assets/scripts/post_render.json"):
+	json_script = hg.GetFilesystem().FileToString(file_name)
+	if json_script != "":
+		script_parameters = json.loads(json_script)
+		Main.HSL_postProcess.SetH(script_parameters["hue"])
+		Main.HSL_postProcess.SetS(script_parameters["saturation"])
+		Main.HSL_postProcess.SetL(script_parameters["value"])
+
+		Main.flag_MotionBlur=script_parameters["flag_MotionBlur"]
+		Main.MotionBlur_postProcess.SetBlurRadius(script_parameters["mb_blur_radius"])
+		Main.MotionBlur_postProcess.SetExposure(script_parameters["mb_exposure"])
+		Main.MotionBlur_postProcess.SetSampleCount(int(script_parameters["mb_sample_count"]))
+
+		Main.camera.RemoveComponent(Main.MotionBlur_postProcess)
+		if Main.flag_MotionBlur:
+			Main.camera.AddComponent(Main.MotionBlur_postProcess)
+
+def load_fps_matrix(fps):
+	pos, rot = load_json_matrix("assets/scripts/camera_position.json")
+	if pos is not None and rot is not None:
+		fps.Reset(pos, rot)
+
+#============================================================================================================
+#                                           Scene & Game setups
+#============================================================================================================
 
 def init_scene(plus):
 	Main.scene = plus.NewScene()
@@ -291,8 +352,8 @@ def init_scene(plus):
 
 	Main.water_reflection = WaterReflection(plus, Main.scene, Main.resolution, Main.resolution.x / 4)
 
-	# Main.clouds_render_script=hg.LogicScript("assets/lua_scripts/clouds_render.lua")
-	# Main.scene.AddComponent(Main.clouds_render_script)
+	#Main.clouds_render_script=hg.LogicScript("assets/lua_scripts/clouds_render.lua")
+	#Main.scene.AddComponent(Main.clouds_render_script)
 
 	plus.UpdateScene(Main.scene)
 	load_scene_parameters()
@@ -333,12 +394,9 @@ def find_controller(name):
 	print("No controller found !")
 	return None
 
-
-def load_fps_matrix(fps):
-	pos, rot = load_json_matrix("assets/scripts/camera_position.json")
-	if pos is not None and rot is not None:
-		fps.Reset(pos, rot)
-
+#============================================================================================================
+#                                          ImGui Interfaces
+#============================================================================================================
 
 def gui_interface_scene(scene, fps):
 	camera = scene.GetNode("Camera")
@@ -434,6 +492,16 @@ def gui_interface_game(scene):
 
 		f, c = hg.ImGuiColorEdit("P2 gun color", Main.ennemy_bullets.colors[0])
 		if f: set_p2_gun_color(c)
+
+		hg.ImGuiSeparator()
+		d, f = hg.ImGuiSliderFloat("Radial blur strength", Main.radial_blur_strength, 0, 1)
+		if d: Main.radial_blur_strength = f
+		d, f = hg.ImGuiSliderFloat("Deceleration blur strength", Main.deceleration_blur_strength, 0, 1)
+		if d: Main.deceleration_blur_strength = f
+		d, f = hg.ImGuiSliderFloat("Acceleration blur strength", Main.acceleration_blur_strength, 0, 1)
+		if d: Main.acceleration_blur_strength = f
+
+
 	hg.ImGuiEnd()
 
 
@@ -638,10 +706,12 @@ def gui_layer(layer: CloudsLayer):
 def gui_post_rendering():
 	if hg.ImGuiBegin("Post-rendering Settings"):
 		if hg.ImGuiButton("Load post-render settings"):
-			Main.render_to_texture.load_parameters()
+			post_processes_load_parameters()
 		hg.ImGuiSameLine()
 		if hg.ImGuiButton("Save post-render settings"):
-			Main.render_to_texture.save_parameters()
+			post_processes_save_parameters()
+
+		hg.ImGuiSeparator()
 
 		d, f = hg.ImGuiSliderFloat("Hue", Main.HSL_postProcess.GetH(), -1, 1)
 		if d: Main.HSL_postProcess.SetH(f)
@@ -650,62 +720,26 @@ def gui_post_rendering():
 		d, f = hg.ImGuiSliderFloat("Luminance", Main.HSL_postProcess.GetL(), 0, 1)
 		if d: Main.HSL_postProcess.SetL(f)
 
+		hg.ImGuiSeparator()
+
+		d, f = hg.ImGuiCheckbox("Motion Blur", Main.flag_MotionBlur)
+		if d:
+			Main.flag_MotionBlur=f
+			if f:
+				Main.camera.AddComponent(Main.MotionBlur_postProcess)
+			else:
+				Main.camera.RemoveComponent(Main.MotionBlur_postProcess)
+
+		if Main.flag_MotionBlur:
+			pp=Main.MotionBlur_postProcess
+			d, i = hg.ImGuiSliderInt("Blur Radius", pp.GetBlurRadius(), 1, 100)
+			if d: pp.SetBlurRadius(i)
+			d, f = hg.ImGuiSliderFloat("Exposure", pp.GetExposure(), 0, 10)
+			if d : pp.SetExposure(f)
+			d, f = hg.ImGuiSliderInt("SampleCount", pp.GetSampleCount(), 1, 100)
+			if d : pp.SetSampleCount(f)
+
 	hg.ImGuiEnd()
-
-
-def edition_clavier(sea_render: SeaRender):
-	if plus.KeyDown(hg.KeyLAlt):
-		f = 100
-	else:
-		f = 1
-
-	if not plus.KeyDown(hg.KeyLCtrl):
-
-		if plus.KeyDown(hg.KeyA):
-			sea_render.sea_scale.x += 1
-		elif plus.KeyDown(hg.KeyQ):
-			sea_render.sea_scale.x -= 1
-			sea_render.x = max(1, sea_render.sea_scale.x)
-
-		if plus.KeyDown(hg.KeyZ):
-			sea_render.sea_scale.y += 0.1
-		elif plus.KeyDown(hg.KeyS):
-			sea_render.sea_scale.y -= 0.1
-			sea_render.y = max(0.1, sea_render.sea_scale.y)
-
-		if plus.KeyDown(hg.KeyE):
-			sea_render.sea_scale.z += 1
-		elif plus.KeyDown(hg.KeyD):
-			sea_render.sea_scale.z -= 1
-			sea_render.z = max(1, sea_render.sea_scale.z)
-
-		if plus.KeyDown(hg.KeyNumpad1):
-			sea_render.sea_reflection -= 0.01
-		elif plus.KeyDown(hg.KeyNumpad2):
-			sea_render.sea_reflection += 0.01
-		sea_render.sea_reflection = max(0, min(1, sea_render.sea_reflection))
-
-		if plus.KeyDown(hg.KeyNumpad3):
-			sea_render.horizon_line_size -= 0.1
-		elif plus.KeyDown(hg.KeyNumpad4):
-			sea_render.horizon_line_size += 0.1
-		sea_render.horizon_line_size = max(1, min(100, sea_render.horizon_line_size))
-
-		if plus.KeyPress(hg.KeyNumpad5):
-			sea_render.max_filter_samples -= 1
-		elif plus.KeyPress(hg.KeyNumpad6):
-			sea_render.max_filter_samples += 1
-		sea_render.max_filter_samples = max(1, min(8, sea_render.max_filter_samples))
-
-		if plus.KeyPress(hg.KeyNumpad7):
-			sea_render.filter_precision -= 1
-		elif plus.KeyPress(hg.KeyNumpad8):
-			sea_render.filter_precision += 1
-		sea_render.filter_precision = max(1, min(100, sea_render.filter_precision))
-
-
-def animations(dts):
-	pass
 
 
 def gui_device_outputs(dev):
@@ -745,6 +779,16 @@ def gui_device_outputs(dev):
 		hg.ImGuiText("InputButton15: " + str(dev.GetValue(hg.InputButton15)))
 	hg.ImGuiEnd()
 
+#==================================================================
+#           Animations controler
+#==================================================================
+
+def animations(dts):
+	pass
+
+#===============================================================================================================
+#                   Ingame functions
+#===============================================================================================================
 
 def autopilot_controller(aircraft: Aircraft):
 	if hg.ImGuiBegin("Auto pilot"):
@@ -882,21 +926,24 @@ def control_aircraft_keyboard(dts, aircraft: Aircraft):
 			aircraft.set_health_level(aircraft.health_level - 0.01)
 	return p, r, y
 
+def set_view(view):
+	Main.current_view=view
+	set_track_view(view)
 
 def control_views():
 	quit_sv = False
 	if plus.KeyDown(hg.KeyNumpad2):
 		quit_sv = True
-		set_track_view(back_view)
+		set_view(back_view)
 	elif plus.KeyDown(hg.KeyNumpad8):
 		quit_sv = True
-		set_track_view(front_view)
+		set_view(front_view)
 	elif plus.KeyDown(hg.KeyNumpad4):
 		quit_sv = True
-		set_track_view(left_view)
+		set_view(left_view)
 	elif plus.KeyDown(hg.KeyNumpad6):
 		quit_sv = True
-		set_track_view(right_view)
+		set_view(right_view)
 	elif plus.KeyPress(hg.KeyNumpad5):
 		if Main.satellite_view:
 			Main.satellite_view = False
@@ -915,6 +962,9 @@ def control_views():
 		elif plus.KeyDown(hg.KeyPageUp):
 			decrement_satellite_view_size()
 
+#===========================================================================================================
+#                           Render flows
+#===========================================================================================================
 
 def custom_flow(plus, t,dts):
 	Main.sea_render_script.SetEnabled(False)
@@ -992,6 +1042,9 @@ def render_flow(plus,delta_t):
 	else:
 		renderScript_flow(plus, t,dts)
 
+# ==================================================================================================
+#                                           Musics
+# ==================================================================================================
 
 def start_music(filename):
 	music = Main.audio.LoadSound(filename)
@@ -1065,8 +1118,6 @@ def init_start_phase():
 	Main.scene.SetCurrentCamera(Main.camera)
 	Main.satellite_view = False
 
-	Main.render_to_texture.load_parameters()        # !!! A SUPPRIMER ?
-
 	Main.HSL_postProcess.SetS(0)
 	Main.HSL_postProcess.SetL(0)
 
@@ -1081,6 +1132,8 @@ def init_start_phase():
 
 	Main.audio.SetMasterVolume(1)
 	start_title_music()
+
+	Main.RadialBlur_postProcess.SetStrength(0)
 
 	return start_phase
 
@@ -1190,7 +1243,7 @@ def init_main_phase():
 	Main.HSL_postProcess.SetL(1)
 	Main.HSL_postProcess.SetS(0)
 
-	set_track_view(back_view)
+	set_view(back_view)
 
 	Main.p1_aircraft.set_thrust_level(1)
 	# Main.p1_aircraft.set_brake_level(1)
@@ -1223,12 +1276,24 @@ def init_main_phase():
 	return main_phase
 
 
+def update_radial_post_process(acceleration):
+	if acceleration<0:
+		Main.RadialBlur_postProcess.SetStrength(Main.radial_blur_strength*pow(min(1, abs(acceleration*Main.deceleration_blur_strength)), 2))
+	else:
+		Main.RadialBlur_postProcess.SetStrength(Main.radial_blur_strength*pow(min(1, abs(acceleration*Main.acceleration_blur_strength)), 4))
+
+	if Main.gun_sight_2D is not None and Main.current_view==back_view:
+		Main.RadialBlur_postProcess.SetCenter(Main.gun_sight_2D)
+	else:
+		Main.RadialBlur_postProcess.SetCenter(hg.Vector2(0.5,0.5))
+
 def main_phase(plus, delta_t):
 	dts = hg.time_to_sec_f(delta_t)
 	camera = Main.scene.GetNode("Camera")
 
+	acc=Main.p1_aircraft.get_linear_acceleration()
 	noise_level = max(0, Main.p1_aircraft.get_linear_speed() * 3.6 / 2500 * 0.1 + pow(
-		min(1, abs(Main.p1_aircraft.get_linear_acceleration() / 7)), 2) * 1)
+		min(1, abs(acc / 7)), 2) * 1)
 	if Main.p1_aircraft.post_combution:
 		noise_level += 0.1
 
@@ -1238,6 +1303,8 @@ def main_phase(plus, delta_t):
 	Main.camera_v_move = camera_move * dts
 	#Main.fps.UpdateAndApplyToNode(camera, delta_t)
 	#Main.camera_matrix = None
+
+	update_radial_post_process(acc)
 
 	# Kinetics:
 	fade_in_delay = 1.
@@ -1306,6 +1373,9 @@ def init_end_phase():
 		start_success_music()
 	else:
 		start_gameover_music()
+
+	Main.RadialBlur_postProcess.SetStrength(0)
+
 	return end_phase
 
 

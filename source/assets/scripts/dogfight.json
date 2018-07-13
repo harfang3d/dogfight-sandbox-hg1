@@ -22,5 +22,8 @@
         0.5051903128623962,
         0.5673113465309143,
         1.0
-    ]
+    ],
+    "radial_blur_strength": 0.5100000500679016,
+    "deceleration_blur_strength": 0.15600000321865082,
+    "acceleration_blur_strength": 0.4480000138282776
 }
