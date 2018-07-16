@@ -18,6 +18,5 @@
         1.0
     ],
     "ambient_intensity": 0.49000000953674316,
-    "render_clouds": true,
-    "custom_flow": false
+    "render_clouds": true
 }

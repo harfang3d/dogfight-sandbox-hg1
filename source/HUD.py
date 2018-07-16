@@ -26,7 +26,7 @@ def get_2d(camera, renderer, point3d: hg.Vector3):
 
 
 def update_radar(Main,plus,aircraft,targets):
-	value = Main.render_to_texture.value
+	value = Main.HSL_postProcess.GetL()
 	t=hg.time_to_sec_f(plus.GetClock())
 	rx,ry = 150/1600*Main.resolution.x, 150/900*Main.resolution.y
 	rs=200/1600*Main.resolution.x
@@ -116,13 +116,13 @@ def update_machine_gun_sight(Main,plus,aircraft:Aircraft):
 	Main.gun_sight_2D=get_2d(Main.scene.GetCurrentCamera(),plus.GetRenderer(),p)
 	p2D=Main.gun_sight_2D
 	if p2D is not None:
-		plus.Sprite2D(p2D.x*Main.resolution.x, p2D.y*Main.resolution.y, 64/1600*Main.resolution.x, "assets/sprites/machine_gun_sight.png", hg.Color(0.5,1,0.5,Main.render_to_texture.value))
+		plus.Sprite2D(p2D.x*Main.resolution.x, p2D.y*Main.resolution.y, 64/1600*Main.resolution.x, "assets/sprites/machine_gun_sight.png", hg.Color(0.5,1,0.5, Main.HSL_postProcess.GetL()))
 
 
 def update_target_sight(Main,plus,aircraft:Aircraft):
 	tps = hg.time_to_sec_f(plus.GetClock())
 	target=aircraft.get_target()
-	f = Main.render_to_texture.value
+	f = Main.HSL_postProcess.GetL()
 	if target is not None:
 		p2D=get_2d(Main.scene.GetCurrentCamera(),plus.GetRenderer(),target.get_parent_node().GetTransform().GetPosition())
 		if p2D is not None:
@@ -167,7 +167,7 @@ def update_target_sight(Main,plus,aircraft:Aircraft):
 
 
 def display_hud(Main, plus, aircraft: Aircraft,targets):
-	f = Main.render_to_texture.value
+	f =Main.HSL_postProcess.GetL()
 	tps = hg.time_to_sec_f(plus.GetClock())
 	a_pulse = 0.1 if (sin(tps * 25) > 0) else 0.9
 	hs, vs = aircraft.get_world_speed()

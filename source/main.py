@@ -12,7 +12,6 @@
 
 import harfang as hg
 
-from RenderPass import *
 from SeaRender import *
 from WaterReflection import *
 from MathsSupp import *
@@ -48,7 +47,6 @@ class Main:
 	sea_render = None
 	ligth_sun = None
 	ligth_sky = None
-	render_to_texture = None
 
 	sea_render_script = None
 	clouds_render_script = None
@@ -90,8 +88,6 @@ class Main:
 
 	title_music = 0
 	title_music_settings = None
-
-	custom_flow = False
 
 	clouds = None
 	render_volumetric_clouds = True
@@ -225,7 +221,6 @@ def load_scene_parameters(file_name="assets/scripts/scene_parameters.json"):
 		environment.SetAmbientColor(list_to_color(script_parameters["ambient_color"]))
 		environment.SetAmbientIntensity(script_parameters["ambient_intensity"])
 		Main.render_volumetric_clouds = script_parameters["render_clouds"]
-		Main.custom_flow = script_parameters["custom_flow"]
 
 
 def save_scene_parameters(output_filename="assets/scripts/scene_parameters.json"):
@@ -233,8 +228,7 @@ def save_scene_parameters(output_filename="assets/scripts/scene_parameters.json"
 	script_parameters = {"sunlight_color": color_to_list(Main.ligth_sun.GetLight().GetDiffuseColor()),
 		"skylight_color": color_to_list(Main.ligth_sky.GetLight().GetDiffuseColor()),
 		"ambient_color": color_to_list(environment.GetAmbientColor()),
-		"ambient_intensity": environment.GetAmbientIntensity(), "render_clouds": Main.render_volumetric_clouds,
-		"custom_flow": Main.custom_flow
+		"ambient_intensity": environment.GetAmbientIntensity(), "render_clouds": Main.render_volumetric_clouds
 	                     }
 	json_script = json.dumps(script_parameters, indent=4)
 	return hg.GetFilesystem().StringToFile(output_filename, json_script)
@@ -345,7 +339,6 @@ def init_scene(plus):
 	Main.sea_render_script.SetEnabled(False)
 	Main.sea_render = SeaRender(plus, Main.scene, Main.sea_render_script)
 	Main.sea_render.load_json_script()
-	Main.render_to_texture = RenderToTexture(plus, Main.resolution)
 
 	Main.sea_render.update_render_script(Main.scene, Main.resolution, hg.time_to_sec_f(plus.GetClock()))
 	Main.scene.AddComponent(Main.sea_render_script)
@@ -419,8 +412,6 @@ def gui_interface_scene(scene, fps):
 			Main.show_debug_displays = f
 			scene.GetPhysicSystem().SetDebugVisuals(Main.show_debug_displays)
 
-		d, f = hg.ImGuiCheckbox("Custom render flow", Main.custom_flow)
-		if d: Main.custom_flow = f
 
 		d, f = hg.ImGuiCheckbox("Volumetric clouds", Main.render_volumetric_clouds)
 		if d:
@@ -966,49 +957,12 @@ def control_views():
 #                           Render flows
 #===========================================================================================================
 
-def custom_flow(plus, t,dts):
-	Main.sea_render_script.SetEnabled(False)
-
-	# Reflection:
-	if Main.sea_render.render_scene_reflection and not Main.satellite_view:
-		# Main.sea_render.enable_render_sea(False)
-		Main.water_reflection.render(plus, Main.scene, Main.camera)
-
-	# Scene 3d:
-	# Main.sea_render.enable_render_sea(True)
-	renderer = plus.GetRenderer()
-	renderer.EnableDepthTest(True)
-	renderer.EnableDepthWrite(True)
-	renderer.EnableBlending(True)
-	renderer = plus.GetRenderer()
-	renderer.SetRenderTarget(Main.render_to_texture.render_target_1)
-	plus.UpdateScene(Main.scene)
-
-	# Skymap:
-	renderer.SetRenderTarget(Main.render_to_texture.render_target_2)
-	renderer.Clear(hg.Color(0., 0., 0., 0.))  # red
-	Main.render_to_texture.begin_render(plus)
-	Main.sea_render.reflect_map = Main.water_reflection.render_texture
-	Main.sea_render.reflect_map_depth = Main.water_reflection.render_depth_texture
-	Main.sea_render.update_shader(plus, Main.scene, Main.resolution, hg.time_to_sec_f(plus.GetClock()))
-	Main.render_to_texture.end_render(plus)
-
-	if Main.render_volumetric_clouds:
-		Main.clouds.update(t, dts,Main.scene, Main.resolution)
-
-	# Fusion:
-	renderer.EnableDepthTest(False)
-	renderer.EnableDepthWrite(False)
-	renderer.EnableBlending(True)
-	renderer.ClearRenderTarget()
-	Main.render_to_texture.draw_renderTexture_fusion_HSV(plus)
 
 
 def renderScript_flow(plus, t,dts):
 	Main.sea_render_script.SetEnabled(True)
 	if Main.sea_render.render_scene_reflection and not Main.satellite_view:
-		# Main.sea_render.enable_render_sea(False)
-		Main.water_reflection.render(plus, Main.scene, Main.camera)  # Main.sea_render.enable_render_sea(True)
+		Main.water_reflection.render(plus, Main.scene, Main.camera)
 
 	Main.sea_render.reflect_map = Main.water_reflection.render_texture
 	Main.sea_render.reflect_map_depth = Main.water_reflection.render_depth_texture
@@ -1020,7 +974,6 @@ def renderScript_flow(plus, t,dts):
 	renderer.EnableDepthWrite(True)
 	renderer.EnableBlending(True)
 	renderer = plus.GetRenderer()
-	#renderer.SetRenderTarget(Main.render_to_texture.render_target_1)
 	renderer.ClearRenderTarget()
 
 	# Volumetric clouds:
@@ -1034,13 +987,8 @@ def renderScript_flow(plus, t,dts):
 def render_flow(plus,delta_t):
 	t = hg.time_to_sec_f(plus.GetClock())
 	dts=hg.time_to_sec_f(delta_t)
-	# if not Main.sea_render.render_scene_reflection:
-	#    Main.scene.SetCurrentCamera(Main.camera)
 
-	if Main.custom_flow:
-		custom_flow(plus, t,dts)
-	else:
-		renderScript_flow(plus, t,dts)
+	renderScript_flow(plus, t,dts)
 
 # ==================================================================================================
 #                                           Musics
@@ -1157,7 +1105,6 @@ def start_phase(plus, delta_t):
 	fade_in_delay = 1.
 	Main.fading_cptr = min(fade_in_delay, Main.fading_cptr + dts)
 
-	# Main.render_to_texture.saturation = Main.fading_cptr / fade_in_delay *0.1
 	Main.HSL_postProcess.SetL(Main.fading_cptr / fade_in_delay)
 
 	if Main.fading_cptr >= fade_in_delay:
