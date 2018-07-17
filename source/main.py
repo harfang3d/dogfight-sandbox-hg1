@@ -1014,7 +1014,7 @@ def start_title_music():
 
 
 def start_success_music():
-	start_music("assets/sfx/analogik_MINI2.xm")
+	start_music("assets/sfx/analogik_MINI2.XM")
 
 
 def start_gameover_music():
