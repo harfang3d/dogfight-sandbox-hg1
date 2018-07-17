@@ -11,7 +11,7 @@
 # ===========================================================
 
 import harfang as hg
-
+import platform
 from SeaRender import *
 from WaterReflection import *
 from MathsSupp import *
@@ -148,9 +148,14 @@ def init_game(plus):
 	# Fps
 	Main.fps = hg.FPSController(0, 0, 0)
 
-	# Main.controller = find_controller("Controller (XBOX 360 For Windows)")
-	Main.controller = hg.GetInputSystem().GetDevice("xinput.port0")
-
+	devices=hg.GetInputSystem().GetDevices()
+	s=devices.size()
+	pad_name="xinput.port0"
+	for i in range(0,s):
+		d=devices.at(i)
+		if d==pad_name:
+			Main.controller = hg.GetInputSystem().GetDevice(pad_name)
+			break
 	plus.UpdateScene(Main.scene)
 
 	load_game_parameters()
@@ -734,7 +739,6 @@ def gui_post_rendering():
 
 
 def gui_device_outputs(dev):
-	# Main.controller.Update()
 	if hg.ImGuiBegin("Paddle inputs"):
 		for i in range(hg.Button0, hg.ButtonLast):
 			if dev.IsButtonDown(i):
@@ -803,7 +807,9 @@ def autopilot_controller(aircraft: Aircraft):
 
 
 def control_aircraft_paddle(dts, aircraft: Aircraft):
-	# gui_device_outputs(Main.controller)
+
+	if Main.controller is None: return False,False,False
+
 	ct = Main.controller
 
 	v = ct.GetValue(hg.InputAxisT)
