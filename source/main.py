@@ -148,14 +148,7 @@ def init_game(plus):
 	# Fps
 	Main.fps = hg.FPSController(0, 0, 0)
 
-	devices=hg.GetInputSystem().GetDevices()
-	s=devices.size()
-	pad_name="xinput.port0"
-	for i in range(0,s):
-		d=devices.at(i)
-		if d==pad_name:
-			Main.controller = hg.GetInputSystem().GetDevice(pad_name)
-			break
+	Main.controller=find_controller("xinput.port0")
 	plus.UpdateScene(Main.scene)
 
 	load_game_parameters()
@@ -385,11 +378,14 @@ def init_lights(plus):
 
 
 def find_controller(name):
-	for device_desc in hg.GetInputSystem().GetDevices():
-		print(device_desc)
-		if device_desc.find(name) >= 0:
-			return hg.GetInputSystem().GetDevice(device_desc)
-	print("No controller found !")
+	nl=name.lower()
+	devices = hg.GetInputSystem().GetDevices()
+	s = devices.size()
+	for i in range(0, s):
+		device_id = devices.at(i)
+		d=device_id.lower()
+		if d == nl:
+			return hg.GetInputSystem().GetDevice(device_id)
 	return None
 
 #============================================================================================================
