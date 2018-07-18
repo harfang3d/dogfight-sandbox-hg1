@@ -149,7 +149,9 @@ def init_game(plus):
 	Main.fps = hg.FPSController(0, 0, 0)
 
 	Main.controller=find_controller("xinput.port0")
-	plus.UpdateScene(Main.scene)
+	Main.scene.Commit()
+	Main.scene.WaitCommit()
+	#plus.UpdateScene(Main.scene)
 
 	load_game_parameters()
 
@@ -227,7 +229,7 @@ def save_scene_parameters(output_filename="assets/scripts/scene_parameters.json"
 		"skylight_color": color_to_list(Main.ligth_sky.GetLight().GetDiffuseColor()),
 		"ambient_color": color_to_list(environment.GetAmbientColor()),
 		"ambient_intensity": environment.GetAmbientIntensity(), "render_clouds": Main.render_volumetric_clouds
-	                     }
+						 }
 	json_script = json.dumps(script_parameters, indent=4)
 	return hg.GetFilesystem().StringToFile(output_filename, json_script)
 
@@ -252,7 +254,7 @@ def save_game_parameters(output_filename="assets/scripts/dogfight.json"):
 		"radial_blur_strength": Main.radial_blur_strength,
 		"deceleration_blur_strength": Main.deceleration_blur_strength,
 		"acceleration_blur_strength": Main.acceleration_blur_strength
-	                     }
+						 }
 	json_script = json.dumps(script_parameters, indent=4)
 	return hg.GetFilesystem().StringToFile(output_filename, json_script)
 
@@ -312,11 +314,15 @@ def init_scene(plus):
 
 	init_lights(plus)
 
-	# while not Main.scene.IsReady():  # Wait until scene is ready
-	#    plus.UpdateScene(Main.scene, plus.UpdateClock())
+	while not Main.scene.IsReady():  # Wait until scene is ready
+		#plus.UpdateScene(Main.scene, plus.UpdateClock())
+		Main.scene.Commit()
+		Main.scene.WaitCommit()
 
-	for i in range(256):
-		plus.UpdateScene(Main.scene, plus.UpdateClock())
+	#for i in range(256):
+	#   plus.UpdateScene(Main.scene, plus.UpdateClock())
+	#	Main.scene.Commit()
+	#	Main.scene.WaitCommit()
 
 	Main.satellite_camera = plus.AddCamera(Main.scene, hg.Matrix4.TranslationMatrix(hg.Vector3(0, 1000, 0)))
 	setup_satellite_camera(Main.satellite_camera)
@@ -346,7 +352,9 @@ def init_scene(plus):
 	#Main.clouds_render_script=hg.LogicScript("assets/lua_scripts/clouds_render.lua")
 	#Main.scene.AddComponent(Main.clouds_render_script)
 
-	plus.UpdateScene(Main.scene)
+	#plus.UpdateScene(Main.scene)
+	Main.scene.Commit()
+	Main.scene.WaitCommit()
 	load_scene_parameters()
 
 
@@ -1059,7 +1067,9 @@ def init_start_phase():
 	Main.p1_sfx.reset()
 	Main.p2_sfx.reset()
 
-	plus.UpdateScene(Main.scene)
+	#plus.UpdateScene(Main.scene)
+	Main.scene.Commit()
+	Main.scene.WaitCommit()
 
 	setup_camera_follow(Main.p1_aircraft.get_parent_node(),
 						Main.p1_aircraft.get_parent_node().GetTransform().GetPosition(),
@@ -1072,7 +1082,9 @@ def init_start_phase():
 	Main.HSL_postProcess.SetL(0)
 
 
-	plus.UpdateScene(Main.scene)
+	#plus.UpdateScene(Main.scene)
+	Main.scene.Commit()
+	Main.scene.WaitCommit()
 	Main.fading_cptr = 0
 
 	plus.SetFont(Main.title_font)
@@ -1413,7 +1425,9 @@ plus.SetCulling2D(hg.CullNever)
 
 init_game(plus)
 
-plus.UpdateScene(Main.scene)
+#plus.UpdateScene(Main.scene)
+Main.scene.Commit()
+Main.scene.WaitCommit()
 
 # -----------------------------------------------
 #                   Main loop
