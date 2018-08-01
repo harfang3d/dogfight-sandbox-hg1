@@ -23,6 +23,7 @@ from math import radians, degrees
 from HUD import *
 from Clouds_v2 import *
 from debug_displays import *
+from ScreenModeRequester import *
 
 
 # =====================================================================================================
@@ -32,7 +33,7 @@ from debug_displays import *
 class Main:
 	resolution = hg.Vector2(1600, 900)
 	antialiasing = 2
-	screenMode = hg.Windowed
+	screenMode = hg.FullscreenMonitor1
 
 	main_node = None
 
@@ -1417,55 +1418,67 @@ hg.MountFileDriver(hg.StdFileDriver())
 
 # hg.SetLogIsDetailed(True)
 # hg.SetLogLevel(hg.LogAll)
+smr_ok,scr_mod,scr_res = request_screen_mode()
+if smr_ok == "ok":
+	Main.resolution.x,Main.resolution.y=scr_res.x,scr_res.y
+	Main.screenMode=scr_mod
 
-plus.RenderInit(int(Main.resolution.x), int(Main.resolution.y), Main.antialiasing, Main.screenMode)
-plus.SetBlend2D(hg.BlendAlpha)
-plus.SetBlend3D(hg.BlendAlpha)
-plus.SetCulling2D(hg.CullNever)
+	plus.RenderInit(int(Main.resolution.x), int(Main.resolution.y), Main.antialiasing, Main.screenMode)
+	plus.SetBlend2D(hg.BlendAlpha)
+	plus.SetBlend3D(hg.BlendAlpha)
+	plus.SetCulling2D(hg.CullNever)
 
-init_game(plus)
-
-#plus.UpdateScene(Main.scene)
-Main.scene.Commit()
-Main.scene.WaitCommit()
-
-# -----------------------------------------------
-#                   Main loop
-# -----------------------------------------------
-
-game_phase = init_start_phase()
-
-while not plus.KeyDown(hg.KeyEscape):
-	delta_t = plus.UpdateClock()
-	dts = hg.time_to_sec_f(delta_t)
-
-	if plus.KeyPress(hg.KeyF12):
-		if Main.display_gui:
-			Main.display_gui = False
-		else:
-			Main.display_gui = True
-	if Main.display_gui:
-		gui_interface_sea_render(Main.sea_render, Main.scene, Main.fps)
-		gui_interface_scene(Main.scene, Main.fps)
-		gui_interface_game(Main.scene)
-		gui_post_rendering()
-		gui_clouds(Main.scene, Main.clouds)
-	# edition_clavier(Main.sea_render)
-	# autopilot_controller(Main.p1_aircraft)
-	# Update game state:
-
-	if Main.show_debug_displays:
-		DebugDisplays.affiche_vecteur(plus, Main.camera, Main.p1_aircraft.ground_ray_cast_pos,
-									  Main.p1_aircraft.ground_ray_cast_dir * Main.p1_aircraft.ground_ray_cast_length,
-									  False)
-
-	if plus.KeyDown(hg.KeyK):
-		Main.p2_aircraft.start_explosion()
-		Main.p2_aircraft.set_health_level(0)
-
-	# Rendering:
-	game_phase = game_phase(plus, delta_t)
-
-	# End rendering:
+	#------------ Add loading screen -------------
+	plus.Clear()
 	plus.Flip()
 	plus.EndFrame()
+	#---------------------------------------------
+
+	init_game(plus)
+
+	#plus.UpdateScene(Main.scene)
+	Main.scene.Commit()
+	Main.scene.WaitCommit()
+
+	# -----------------------------------------------
+	#                   Main loop
+	# -----------------------------------------------
+
+	game_phase = init_start_phase()
+
+	while not plus.KeyDown(hg.KeyEscape):
+		delta_t = plus.UpdateClock()
+		dts = hg.time_to_sec_f(delta_t)
+
+		if plus.KeyPress(hg.KeyF12):
+			if Main.display_gui:
+				Main.display_gui = False
+			else:
+				Main.display_gui = True
+		if Main.display_gui:
+			gui_interface_sea_render(Main.sea_render, Main.scene, Main.fps)
+			gui_interface_scene(Main.scene, Main.fps)
+			gui_interface_game(Main.scene)
+			gui_post_rendering()
+			gui_clouds(Main.scene, Main.clouds)
+		# edition_clavier(Main.sea_render)
+		# autopilot_controller(Main.p1_aircraft)
+		# Update game state:
+
+		if Main.show_debug_displays:
+			DebugDisplays.affiche_vecteur(plus, Main.camera, Main.p1_aircraft.ground_ray_cast_pos,
+										  Main.p1_aircraft.ground_ray_cast_dir * Main.p1_aircraft.ground_ray_cast_length,
+										  False)
+
+		if plus.KeyDown(hg.KeyK):
+			Main.p2_aircraft.start_explosion()
+			Main.p2_aircraft.set_health_level(0)
+
+		# Rendering:
+		game_phase = game_phase(plus, delta_t)
+
+		# End rendering:
+		plus.Flip()
+		plus.EndFrame()
+
+	plus.RenderUninit()
