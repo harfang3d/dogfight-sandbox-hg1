@@ -1456,6 +1456,7 @@ if smr_ok == "ok":
 			else:
 				Main.display_gui = True
 		if Main.display_gui:
+			hg.ImGuiMouseDrawCursor(True)
 			gui_interface_sea_render(Main.sea_render, Main.scene, Main.fps)
 			gui_interface_scene(Main.scene, Main.fps)
 			gui_interface_game(Main.scene)
