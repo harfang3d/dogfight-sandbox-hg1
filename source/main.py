@@ -1446,7 +1446,7 @@ if smr_ok == "ok":
 
 	game_phase = init_start_phase()
 
-	while not plus.KeyDown(hg.KeyEscape):
+	while not plus.KeyDown(hg.KeyEscape) and not plus.IsAppEnded():
 		delta_t = plus.UpdateClock()
 		dts = hg.time_to_sec_f(delta_t)
 
