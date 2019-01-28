@@ -69,7 +69,11 @@ variant {
 			v_uv = vUV0;
 			position = (vPosition.xy+vec2(1.,1.))*0.5;
 			float ratio = resolution.x / resolution.y;
-			screen_ray=vec3(vPosition.x,vPosition.y,0.)*vec3(ratio,1.,0.)+vec3(0.,0.,focal_distance);
+			//screen_ray=vec3(vPosition.x,vPosition.y,0.)*vec3(ratio,1.,0.)+vec3(0.,0.,focal_distance);
+			
+			vec4 clip = _mtx_mul(vInverseViewProjectionMatrixAtOrigin, vec4(vPosition, 1.0));
+			screen_ray = clip.xyz / clip.w;
+			
 			screen_ray_X=screen_ray + vec3(ratio*2./resolution.x,0.,0.);
 			screen_ray_Y=screen_ray + vec3(0.,2./resolution.y,0.);
 			%out.position% = vec4(vPosition, 1.0);
@@ -299,7 +303,7 @@ variant {
 		
 		source %{
 			vec3 screen_ray_dir = normalize(screen_ray);
-			vec3 dir=normalize(cam_normal*screen_ray_dir);
+			vec3 dir=screen_ray_dir; //normalize(cam_normal*screen_ray_dir);
 			vec4 clouds_color;
 			
 			//Reflect UV:
@@ -318,8 +322,8 @@ variant {
 				}
 			else 
 			{
-				vec3 dirX=normalize(cam_normal*normalize(screen_ray_X));
-				vec3 dirY=normalize(cam_normal*normalize(screen_ray_Y));
+				vec3 dirX=normalize(screen_ray_X);//cam_normal*normalize(screen_ray_X));
+				vec3 dirY=normalize(screen_ray_Y);//cam_normal*normalize(screen_ray_Y));
 				if (cam_position.y<=0.)
 				{
 					color=get_atmosphere_color(dir);
