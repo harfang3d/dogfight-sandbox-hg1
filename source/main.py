@@ -1436,6 +1436,21 @@ if smr_ok == "ok":
 
 	init_game(plus)
 
+
+	#--------- VR
+	# check if we use VR
+	try:
+		openvr_frame_renderer = hg.CreateFrameRenderer("VR")
+		if openvr_frame_renderer.Initialize(plus.GetRenderSystem()):
+			Main.scene.GetRenderableSystem().SetFrameRenderer(openvr_frame_renderer)
+			print("!! Use VR")
+		else:
+			openvr_frame_renderer = None
+			print("!! No VR detected")
+	except:
+		print("!! No VR detected")
+		openvr_frame_renderer = None
+
 	#plus.UpdateScene(Main.scene)
 	Main.scene.Commit()
 	Main.scene.WaitCommit()
