@@ -1439,6 +1439,7 @@ if smr_ok == "ok":
 
 	#--------- VR
 	# check if we use VR
+
 	try:
 		openvr_frame_renderer = hg.CreateFrameRenderer("VR")
 		if openvr_frame_renderer.Initialize(plus.GetRenderSystem()):
