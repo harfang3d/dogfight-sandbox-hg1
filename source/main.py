@@ -315,15 +315,7 @@ def init_scene(plus):
 
 	init_lights(plus)
 
-	while not Main.scene.IsReady():  # Wait until scene is ready
-		#plus.UpdateScene(Main.scene, plus.UpdateClock())
-		Main.scene.Commit()
-		Main.scene.WaitCommit()
-
-	#for i in range(256):
-	#   plus.UpdateScene(Main.scene, plus.UpdateClock())
-	#	Main.scene.Commit()
-	#	Main.scene.WaitCommit()
+	Main.scene.UpdateAndCommitWaitAll()
 
 	Main.satellite_camera = plus.AddCamera(Main.scene, hg.Matrix4.TranslationMatrix(hg.Vector3(0, 1000, 0)))
 	setup_satellite_camera(Main.satellite_camera)
