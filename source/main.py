@@ -989,7 +989,11 @@ def renderScript_flow(plus, t,dts):
 
 	# Volumetric clouds:
 	if Main.render_volumetric_clouds:
-		Main.clouds.update(t,dts, Main.scene, Main.resolution)
+		mat = Main.scene.GetCurrentCamera().GetTransform().GetWorld()
+		hmd = hg.GetInputSystem().GetDevice("HMD")
+		if hmd is not None:
+			mat = mat * hmd.GetMatrix(hg.InputDeviceMatrixHead)
+		Main.clouds.update(t,dts, Main.scene, mat,Main.resolution)
 		Main.scene.Commit()
 		Main.scene.WaitCommit()
 
@@ -1444,6 +1448,7 @@ if smr_ok == "ok":
 		openvr_frame_renderer = hg.CreateFrameRenderer("VR")
 		if openvr_frame_renderer.Initialize(plus.GetRenderSystem()):
 			Main.scene.GetRenderableSystem().SetFrameRenderer(openvr_frame_renderer)
+
 			print("!! Use VR")
 		else:
 			openvr_frame_renderer = None

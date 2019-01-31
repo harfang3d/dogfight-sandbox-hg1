@@ -385,7 +385,7 @@ class CloudsLayer(ViewTrame):
 		c = c12 * (1 - yf) + c34 * yf
 		return c
 
-	def update(self, t, camera, resolution,map_position:hg.Vector2):
+	def update(self, t, mat,zoom_factor, resolution,map_position:hg.Vector2):
 		self.offset=map_position
 		self.t = t
 		self.num_tiles = 0
@@ -393,14 +393,14 @@ class CloudsLayer(ViewTrame):
 		self.particle_index = [0] * self.num_geometries
 		# for i in range (0,self.num_textures_layer_2):
 		#    self.particle_index_layer_2.append(0)
-		self.cam_pos = camera.GetTransform().GetPosition()
+		self.cam_pos = mat.GetTranslation()
 		self.pc = hg.Color(1., 1., 1., 1.)
 		self.scale_size = self.particles_scale_range.y - self.particles_scale_range.x
 		self.rot_hash = hg.Vector3(133.464, 4713.3, 1435.1)
 
 		self.send_position = self.set_particle
-		self.update_triangle(resolution, camera.GetTransform().GetPosition()+hg.Vector3(self.offset.x,0,self.offset.y),
-		                     camera.GetTransform().GetWorld().GetZ(), camera.GetCamera().GetZoomFactor())
+		self.update_triangle(resolution, self.cam_pos+hg.Vector3(self.offset.x,0,self.offset.y),
+		                     mat.GetZ(), zoom_factor)
 		self.fill_triangle()
 
 
@@ -542,10 +542,9 @@ class Clouds:
 		for layer in self.layers:
 			layer.update_particles()
 
-	def update(self, t, delta_t, scene, resolution):
+	def update(self, t, delta_t, scene, mat, resolution):
 		self.t = t
-		camera = scene.GetCurrentCamera()
-		self.cam_pos = camera.GetTransform().GetPosition()
+		self.cam_pos = mat.GetTranslation()
 		self.map_position+=self.v_wind*delta_t
 		for layer in self.layers:
-			layer.update(t, camera, resolution, self.map_position)
+			layer.update(t, mat, scene.GetCurrentCamera().GetCamera().GetZoomFactor(), resolution, self.map_position)
