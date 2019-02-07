@@ -23,7 +23,7 @@ from math import radians, degrees
 from HUD import *
 from Clouds_v2 import *
 from debug_displays import *
-from ScreenModeRequester import *
+import ScreenModeRequester as smr
 import vr_handler
 
 
@@ -35,7 +35,7 @@ class Main:
 	resolution = hg.Vector2(1600, 900)
 	antialiasing = 2
 	screenMode = hg.FullscreenMonitor1
-
+	flag_VR = False
 	main_node = hg.Node()
 
 	controller = None
@@ -970,10 +970,10 @@ def renderScript_flow(plus, t,dts):
 	Main.sea_render.reflect_map_depth = Main.water_reflection.render_depth_texture
 	Main.sea_render.update_render_script(Main.scene, Main.resolution, hg.time_to_sec_f(plus.GetClock()))
 
-	view_state = plus.GetRenderSystem().GetViewState()
-	view_rotation = view_state.view.GetRotationMatrix()
-	angles=view_rotation.ToEuler()
-	print(str(degrees(angles.x)) + " "+ str(degrees(angles.y))+ " "+ str(degrees(angles.z)))
+	#view_state = plus.GetRenderSystem().GetViewState()
+	#view_rotation = view_state.view.GetRotationMatrix()
+	#angles=view_rotation.ToEuler()
+	#print(str(degrees(angles.x)) + " "+ str(degrees(angles.y))+ " "+ str(degrees(angles.z)))
 
 	# Main.scene.Commit()
 	# Main.scene.WaitCommit()
@@ -1417,13 +1417,9 @@ plus = hg.GetPlus()
 hg.LoadPlugins()
 hg.MountFileDriver(hg.StdFileDriver())
 
-# hg.SetLogIsDetailed(True)
-# hg.SetLogLevel(hg.LogAll)
-
-smr_ok,scr_mod,scr_res,flag_VR = request_screen_mode()
+smr_ok,scr_mod,Main.resolution,Main.flag_VR = smr.request_screen_mode()
 
 if smr_ok == "ok":
-	Main.resolution.x,Main.resolution.y=scr_res.x,scr_res.y
 	Main.screenMode=scr_mod
 
 	plus.RenderInit(int(Main.resolution.x), int(Main.resolution.y), Main.antialiasing, Main.screenMode)
@@ -1441,10 +1437,9 @@ if smr_ok == "ok":
 
 
 	#--------- VR
-	if flag_VR:
+	if Main.flag_VR:
 		vr_handler.init_vr(Main.scene, plus)
 
-	#plus.UpdateScene(Main.scene)
 	Main.scene.Commit()
 	Main.scene.WaitCommit()
 
@@ -1470,8 +1465,7 @@ if smr_ok == "ok":
 			gui_interface_game(Main.scene)
 			gui_post_rendering()
 			gui_clouds(Main.scene, Main.clouds)
-		# edition_clavier(Main.sea_render)
-		# autopilot_controller(Main.p1_aircraft)
+
 		# Update game state:
 
 		if Main.show_debug_displays:

@@ -33,7 +33,7 @@ zoom_factor=1
 resolution = hg.Vector2(1920,1080)
 
 time_clock = 0
-cam_pos = hg.Vector3()
+cam_pos = nil
 
 sea_color = hg.Color()
 
