@@ -36,7 +36,7 @@ class Main:
 	antialiasing = 2
 	screenMode = hg.FullscreenMonitor1
 
-	main_node = None
+	main_node = hg.Node()
 
 	controller = None
 
@@ -326,8 +326,6 @@ def init_scene(plus):
 	if json_script != "":
 		clouds_parameters = json.loads(json_script)
 		Main.clouds = Clouds(plus, Main.scene, Main.scene.GetNode("Sun"), Main.resolution, clouds_parameters)
-
-	Main.main_node = Main.camera.GetTransform().GetParent()
 
 	Main.island = Main.scene.GetNode("island")
 	Main.island.GetTransform().SetPosition(hg.Vector3(0, 0, 3000))

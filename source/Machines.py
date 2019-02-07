@@ -1087,7 +1087,7 @@ class Aircraft(Destroyable_Machine):
 					self.missiles[i] = None
 					trans = missile.get_parent_node().GetTransform()
 					mat = trans.GetWorld()
-					trans.SetParent(hg.Node())
+					trans.SetParent(Aircraft.main_node)
 					trans.SetWorld(mat)
 					if self.target_locked:
 						target = self.targets[self.target_id - 1]
