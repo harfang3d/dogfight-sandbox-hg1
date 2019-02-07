@@ -16,7 +16,7 @@
 # ==============================================================================================================
 
 import harfang as hg
-
+import vr_handler
 
 res_w=520
 res_h=160
@@ -27,13 +27,15 @@ current_monitor=0
 current_mode=0
 ratio_filter=0
 flag_windowed=False
+flag_VR_present=False
+flag_VR=False
 
 screenModes=[hg.FullscreenMonitor1,hg.FullscreenMonitor2,hg.FullscreenMonitor3]
 smr_screenMode=hg.FullscreenMonitor1
 smr_resolution=hg.IntVector2(1280,1024)
 
 def gui_ScreenModeRequester():
-	global flag_windowed
+	global flag_windowed,flag_VR
 	global current_monitor,current_mode,monitors_names,modes
 
 	hg.ImGuiSetNextWindowPosCenter(hg.ImGuiCond_Always)
@@ -61,6 +63,11 @@ def gui_ScreenModeRequester():
 		if f:
 			flag_windowed = d
 
+		if flag_VR_present:
+			f, d = hg.ImGuiCheckbox("VR", flag_VR)
+			if f:
+				flag_VR = d
+
 		ok=hg.ImGuiButton("Ok")
 		hg.ImGuiSameLine()
 		cancel=hg.ImGuiButton("Quit")
@@ -72,8 +79,10 @@ def gui_ScreenModeRequester():
 	else: return ""
 
 def request_screen_mode(p_ratio_filter=0):
+	global flag_VR_present
 	global monitors,monitors_names,modes,smr_screenMode,smr_resolution,ratio_filter
 
+	# Get Screens:
 	ratio_filter=p_ratio_filter
 	monitors = hg.GetMonitors()
 	monitors_names = []
@@ -91,6 +100,10 @@ def request_screen_mode(p_ratio_filter=0):
 				filtered_modes.append(md)
 		modes.append(filtered_modes)
 
+	# Test if VR is present:
+	flag_VR_present=vr_handler.is_vr_present()
+
+	# Requester:
 	plus=hg.GetPlus()
 	plus.RenderInit(res_w, res_h, 1, hg.Windowed)
 	select=""
@@ -98,8 +111,10 @@ def request_screen_mode(p_ratio_filter=0):
 		select=gui_ScreenModeRequester()
 		plus.Flip()
 		plus.EndFrame()
+		plus.WaitForRender()
 	plus.RenderUninit()
 
+	# Screen setup:
 	if select=="ok":
 		if flag_windowed:
 			smr_screenMode=hg.Windowed
@@ -107,4 +122,10 @@ def request_screen_mode(p_ratio_filter=0):
 			smr_screenMode=screenModes[current_monitor]
 		rect=modes[current_monitor][current_mode].rect
 		smr_resolution.x,smr_resolution.y=rect.ex-rect.sx,rect.ey-rect.sy
-	return select,smr_screenMode,smr_resolution
+		if not flag_VR:
+			vr_handler.openvr_frame_renderer=None
+
+	elif select=="quit":
+		vr_handler.openvr_frame_renderer = None
+
+	return select,smr_screenMode,smr_resolution,flag_VR

@@ -24,6 +24,7 @@ from HUD import *
 from Clouds_v2 import *
 from debug_displays import *
 from ScreenModeRequester import *
+import vr_handler
 
 
 # =====================================================================================================
@@ -970,6 +971,12 @@ def renderScript_flow(plus, t,dts):
 	Main.sea_render.reflect_map = Main.water_reflection.render_texture
 	Main.sea_render.reflect_map_depth = Main.water_reflection.render_depth_texture
 	Main.sea_render.update_render_script(Main.scene, Main.resolution, hg.time_to_sec_f(plus.GetClock()))
+
+	view_state = plus.GetRenderSystem().GetViewState()
+	view_rotation = view_state.view.GetRotationMatrix()
+	angles=view_rotation.ToEuler()
+	print(str(degrees(angles.x)) + " "+ str(degrees(angles.y))+ " "+ str(degrees(angles.z)))
+
 	# Main.scene.Commit()
 	# Main.scene.WaitCommit()
 	renderer = plus.GetRenderer()
@@ -1414,7 +1421,9 @@ hg.MountFileDriver(hg.StdFileDriver())
 
 # hg.SetLogIsDetailed(True)
 # hg.SetLogLevel(hg.LogAll)
-smr_ok,scr_mod,scr_res = request_screen_mode()
+
+smr_ok,scr_mod,scr_res,flag_VR = request_screen_mode()
+
 if smr_ok == "ok":
 	Main.resolution.x,Main.resolution.y=scr_res.x,scr_res.y
 	Main.screenMode=scr_mod
@@ -1434,20 +1443,8 @@ if smr_ok == "ok":
 
 
 	#--------- VR
-	# check if we use VR
-
-	try:
-		openvr_frame_renderer = hg.CreateFrameRenderer("VR")
-		if openvr_frame_renderer.Initialize(plus.GetRenderSystem()):
-			Main.scene.GetRenderableSystem().SetFrameRenderer(openvr_frame_renderer)
-
-			print("!! Use VR")
-		else:
-			openvr_frame_renderer = None
-			print("!! No VR detected")
-	except:
-		print("!! No VR detected")
-		openvr_frame_renderer = None
+	if flag_VR:
+		vr_handler.init_vr(Main.scene, plus)
 
 	#plus.UpdateScene(Main.scene)
 	Main.scene.Commit()
