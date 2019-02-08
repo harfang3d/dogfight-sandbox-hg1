@@ -26,12 +26,14 @@ modes=None
 current_monitor=0
 current_mode=0
 ratio_filter=0
+flag_windowed=False
 
 screenModes=[hg.FullscreenMonitor1,hg.FullscreenMonitor2,hg.FullscreenMonitor3]
 smr_screenMode=hg.FullscreenMonitor1
 smr_resolution=hg.IntVector2(1280,1024)
 
 def gui_ScreenModeRequester():
+	global flag_windowed
 	global current_monitor,current_mode,monitors_names,modes
 
 	hg.ImGuiSetNextWindowPosCenter(hg.ImGuiCond_Always)
@@ -55,6 +57,10 @@ def gui_ScreenModeRequester():
 					current_mode = i
 			hg.ImGuiEndCombo()
 
+		f, d = hg.ImGuiCheckbox("Windowed", flag_windowed)
+		if f:
+			flag_windowed = d
+
 		ok=hg.ImGuiButton("Ok")
 		hg.ImGuiSameLine()
 		cancel=hg.ImGuiButton("Quit")
@@ -73,7 +79,7 @@ def request_screen_mode(p_ratio_filter=0):
 	monitors_names = []
 	modes = []
 	for i in range(monitors.size()):
-		monitors_names.append(hg.GetMonitorName(monitors.at(i)))
+		monitors_names.append(hg.GetMonitorName(monitors.at(i))+str(i))
 		f, m = hg.GetMonitorModes(monitors.at(i))
 		filtered_modes=[]
 		for j in range(m.size()):
@@ -95,7 +101,10 @@ def request_screen_mode(p_ratio_filter=0):
 	plus.RenderUninit()
 
 	if select=="ok":
-		smr_screenMode=screenModes[current_monitor]
+		if flag_windowed:
+			smr_screenMode=hg.Windowed
+		else:
+			smr_screenMode=screenModes[current_monitor]
 		rect=modes[current_monitor][current_mode].rect
 		smr_resolution.x,smr_resolution.y=rect.ex-rect.sx,rect.ey-rect.sy
 	return select,smr_screenMode,smr_resolution
