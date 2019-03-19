@@ -123,7 +123,7 @@ function EndRenderPass(pass)
 	renderer:SetShaderFloat3("ambient_color", ambient_color.r, ambient_color.g, ambient_color.b)
 	-- configure the frame buffer so that only background pixels are drawn to
 	renderer:EnableDepthTest(true)
-	renderer:EnableDepthWrite(false)
+	renderer:EnableDepthWrite(true)
 	renderer:SetDepthFunc(hg.DepthLessEqual)
 	render_system:DrawFullscreenQuad(render_system:GetViewportToInternalResolutionRatio())
 	renderer:EnableDepthWrite(true)

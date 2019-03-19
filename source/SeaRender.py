@@ -151,6 +151,8 @@ class SeaRender:
 
 		self.render_script.Set("tex_sky_N", self.tex_sky_N)
 		self.render_script.Set("noise_texture_1", self.noise_texture_1)
+
+
 		self.render_script.Set("noise_texture_2", self.noise_texture_2)
 		self.render_script.Set("noise_displacement_texture", self.noise_displacement_texture)
 		self.render_script.Set("stream_texture", self.stream_texture)

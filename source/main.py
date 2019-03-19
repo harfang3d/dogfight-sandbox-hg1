@@ -981,7 +981,6 @@ def renderScript_flow(plus, t,dts):
 	renderer.EnableDepthTest(True)
 	renderer.EnableDepthWrite(True)
 	renderer.EnableBlending(True)
-	renderer = plus.GetRenderer()
 	renderer.ClearRenderTarget()
 
 	# Volumetric clouds:
