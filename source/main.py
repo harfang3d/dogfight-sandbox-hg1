@@ -112,6 +112,8 @@ class Main:
 
 	current_view=None
 
+	flag_display_HUD=True
+
 
 # =====================================================================================================
 #                                   Functions
@@ -1283,7 +1285,8 @@ def main_phase(plus, delta_t):
 
 	Main.p1_aircraft.stabilize(dts, pk & pp, yk & yp, rk & rp)
 	# Hud
-	display_hud(Main, plus, Main.p1_aircraft, Main.p1_targets)
+	if Main.flag_display_HUD:
+		display_hud(Main, plus, Main.p1_aircraft, Main.p1_targets)
 
 	control_views()
 
@@ -1417,6 +1420,7 @@ hg.MountFileDriver(hg.StdFileDriver())
 # hg.SetLogIsDetailed(True)
 # hg.SetLogLevel(hg.LogAll)
 smr_ok,scr_mod,scr_res = request_screen_mode()
+
 if smr_ok == "ok":
 	Main.resolution.x,Main.resolution.y=scr_res.x,scr_res.y
 	Main.screenMode=scr_mod
@@ -1447,6 +1451,12 @@ if smr_ok == "ok":
 	while not plus.KeyDown(hg.KeyEscape) and not plus.IsAppEnded():
 		delta_t = plus.UpdateClock()
 		dts = hg.time_to_sec_f(delta_t)
+
+		if plus.KeyPress(hg.KeyF11):
+			if Main.flag_display_HUD:
+				Main.flag_display_HUD = False
+			else:
+				Main.flag_display_HUD = True
 
 		if plus.KeyPress(hg.KeyF12):
 			if Main.display_gui:

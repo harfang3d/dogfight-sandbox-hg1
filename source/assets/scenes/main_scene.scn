@@ -1,0 +1,168 @@
+{
+	"Scene": {
+		"Components": {
+			"Environment": {
+				"AmbientColor": {
+					"b": 0.553,
+					"g": 0.6158,
+					"r": 0.4041
+				},
+				"AmbientIntensity": 0.5,
+				"BackgroundColor": {
+					"b": 0.9248,
+					"g": 0.8389,
+					"r": 0.5648
+				},
+				"FogColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				}
+			}
+		},
+		"Nodes": {
+			"Node": {
+				"Uid": 31,
+				"DoNotInstantiate": true,
+				"Name": "_default_camera",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -248.1549,
+							"y": 140.5333,
+							"z": -15.619
+						},
+						"Rotation": {
+							"x": 0.4477,
+							"y": 1.4601,
+							"z": 0.0
+						},
+						"Scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Camera": {
+						"ZFar": 50000.0,
+						"ZNear": 0.1001
+					}
+				}
+			},
+			"Node": {
+				"Uid": 32,
+				"Name": "Sun",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -1.1157,
+							"y": 23.0448,
+							"z": -11.0109
+						},
+						"Rotation": {
+							"x": 0.4364,
+							"y": -0.7853,
+							"z": 0.0
+						}
+					},
+					"Light": {
+						"Model": "Linear",
+						"Range": 100.0,
+						"Shadow": "ShadowMap"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 33,
+				"Name": "SkyLigth",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 7.9581,
+							"y": -13.6951,
+							"z": 15.5042
+						},
+						"Rotation": {
+							"x": 0.9425,
+							"y": 2.3562,
+							"z": 0.0
+						}
+					},
+					"Light": {
+						"DiffuseColor": {
+							"b": 0.553,
+							"g": 0.6158,
+							"r": 0.4041
+						},
+						"DiffuseIntensity": 0.5,
+						"Model": "Linear",
+						"ShadowRange": 0.0
+					}
+				}
+			},
+			"Node": {
+				"Uid": 34,
+				"Name": "Plane",
+				"Components": {
+					"Transform": {},
+					"LogicScript": {
+						"Script": {
+							"Parameters": {
+								"Parameter": {
+									"Name": "width",
+									"Type": "Float",
+									"Value": 5000.0
+								},
+								"Parameter": {
+									"Name": "length",
+									"Type": "Float",
+									"Value": 5000.0
+								},
+								"Parameter": {
+									"Name": "subdiv_x",
+									"Type": "Int",
+									"Value": 1
+								},
+								"Parameter": {
+									"Name": "subdiv_z",
+									"Type": "Int",
+									"Value": 1
+								},
+								"Parameter": {
+									"Name": "material",
+									"Type": "std::shared_ptr<RenderMaterial>",
+									"Value": "@core/materials/default.mat"
+								}
+							},
+							"Path": "@core/lua/plane.lua"
+						}
+					}
+				}
+			},
+			"Node": {
+				"Uid": 42,
+				"Name": "aircraft_carrier",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 0.0,
+							"y": -11.3518,
+							"z": 0.0
+						}
+					},
+					"Instance": {
+						"Path": "assets/aircraft_carrier/aircraft_carrier.scn"
+					}
+				}
+			}
+		},
+		"NodeHierarchy": {},
+		"Skeletons": {},
+		"State": {
+			"CurrentCamera": {
+				"Uid": 31
+			}
+		},
+		"Takes": {}
+	}
+}
