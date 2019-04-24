@@ -2,6 +2,11 @@
 	"Scene": {
 		"Components": {
 			"Environment": {
+				"AmbientColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				},
 				"FogColor": {
 					"b": 1.0,
 					"g": 1.0,
@@ -18,7 +23,7 @@
 						"Position": {
 							"x": -0.0,
 							"y": 0.0,
-							"z": -0.7851
+							"z": -0.785
 						},
 						"Rotation": {
 							"x": 0.0001,
@@ -37,8 +42,8 @@
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": 27.6574,
-							"y": 38.4193,
+							"x": 27.6575,
+							"y": 38.4194,
 							"z": -36.4564
 						},
 						"Rotation": {
@@ -60,11 +65,11 @@
 						"Position": {
 							"x": 3.3535,
 							"y": 17.6041,
-							"z": -106.5647
+							"z": -106.5645
 						},
 						"Rotation": {
 							"x": -0.0,
-							"y": -0.1918,
+							"y": -0.1916,
 							"z": -0.0
 						}
 					},
@@ -75,13 +80,12 @@
 			},
 			"Node": {
 				"Uid": 4,
-				"Enabled": false,
 				"Name": "carrier_col_shape.002",
 				"Components": {
 					"Transform": {
 						"Position": {
 							"x": -31.1203,
-							"y": 15.449,
+							"y": 15.4491,
 							"z": -10.222
 						}
 					},
@@ -92,14 +96,13 @@
 			},
 			"Node": {
 				"Uid": 5,
-				"Enabled": false,
 				"Name": "carrier_col_shape.001",
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": -1.3856,
-							"y": 15.449,
-							"z": 15.395
+							"x": -1.3854,
+							"y": 15.4491,
+							"z": 15.3951
 						}
 					},
 					"Object": {
@@ -109,13 +112,12 @@
 			},
 			"Node": {
 				"Uid": 6,
-				"Enabled": false,
 				"Name": "carrier_col_shape",
 				"Components": {
 					"Transform": {
 						"Position": {
 							"x": 27.7137,
-							"y": 15.449,
+							"y": 15.4491,
 							"z": -10.222
 						}
 					},
@@ -132,39 +134,18 @@
 					"Transform": {
 						"Position": {
 							"x": -30.8637,
-							"y": 32.8244,
+							"y": 32.8246,
 							"z": -141.677
 						},
 						"Rotation": {
 							"x": 0.2101,
 							"y": 0.2375,
 							"z": 0.0
-						},
-						"Scale": {
-							"x": 1.0,
-							"y": 1.0,
-							"z": 1.0
 						}
 					},
 					"Camera": {
 						"ZFar": 50000.0,
-						"ZNear": 0.1
-					}
-				}
-			},
-			"Node": {
-				"Uid": 8,
-				"Name": "Light",
-				"Components": {
-					"Transform": {
-						"Position": {
-							"x": 0.0,
-							"y": 43.7936,
-							"z": 0.0
-						}
-					},
-					"Light": {
-						"ShadowRange": 0.0
+						"ZNear": 0.1002
 					}
 				}
 			}

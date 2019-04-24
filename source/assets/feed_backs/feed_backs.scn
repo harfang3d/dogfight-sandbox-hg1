@@ -2,6 +2,11 @@
 	"Scene": {
 		"Components": {
 			"Environment": {
+				"AmbientColor": {
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0
+				},
 				"FogColor": {
 					"b": 1.0,
 					"g": 1.0,
@@ -18,7 +23,7 @@
 						"Position": {
 							"x": 0.0,
 							"y": 0.0,
-							"z": 1.6876
+							"z": 1.6877
 						},
 						"Rotation": {
 							"x": 0.0001,
@@ -46,10 +51,43 @@
 						"Geometry": "assets/feed_backs/feed_back_explode.geo"
 					}
 				}
+			},
+			"Node": {
+				"Uid": 3,
+				"DoNotInstantiate": true,
+				"Name": "_default_camera",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -1.3911,
+							"y": 1.8722,
+							"z": 6.1788
+						},
+						"Rotation": {
+							"x": 0.3126,
+							"y": 3.0119,
+							"z": 0.0001
+						},
+						"Scale": {
+							"x": 1.0,
+							"y": 1.0,
+							"z": 1.0
+						}
+					},
+					"Camera": {
+						"ZFar": 50000.0,
+						"ZNear": 0.1
+					}
+				}
 			}
 		},
 		"NodeHierarchy": {},
 		"Skeletons": {},
-		"State": {}
+		"State": {
+			"CurrentCamera": {
+				"Uid": 3
+			}
+		},
+		"Takes": {}
 	}
 }

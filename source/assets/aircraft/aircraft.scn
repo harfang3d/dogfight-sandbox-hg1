@@ -25,11 +25,6 @@
 				"Name": "dummy_aircraft_fuselage",
 				"Components": {
 					"Transform": {
-						"Position": {
-							"x": 24.6059,
-							"y": 4.9093,
-							"z": 0.0006
-						},
 						"Rotation": {
 							"x": 0.0001,
 							"y": 0.0,
@@ -43,14 +38,13 @@
 			},
 			"Node": {
 				"Uid": 2,
-				"Enabled": false,
 				"Name": "aircraft_col_shape.002",
 				"Components": {
 					"Transform": {
 						"Position": {
 							"x": 0.0,
-							"y": -0.5292,
-							"z": -2.6349
+							"y": 0.1631,
+							"z": -1.0174
 						}
 					},
 					"Object": {
@@ -60,14 +54,13 @@
 			},
 			"Node": {
 				"Uid": 3,
-				"Enabled": false,
 				"Name": "aircraft_col_shape.003",
 				"Components": {
 					"Transform": {
 						"Position": {
 							"x": 1.5004,
-							"y": -2.036,
-							"z": -1.7134
+							"y": -1.3437,
+							"z": -0.0958
 						}
 					},
 					"Object": {
@@ -77,14 +70,13 @@
 			},
 			"Node": {
 				"Uid": 4,
-				"Enabled": false,
 				"Name": "aircraft_col_shape.004",
 				"Components": {
 					"Transform": {
 						"Position": {
 							"x": -1.4996,
-							"y": -2.036,
-							"z": -1.7134
+							"y": -1.3437,
+							"z": -0.0958
 						}
 					},
 					"Object": {
@@ -94,14 +86,13 @@
 			},
 			"Node": {
 				"Uid": 5,
-				"Enabled": false,
 				"Name": "aircraft_col_shape.001",
 				"Components": {
 					"Transform": {
 						"Position": {
 							"x": 0.0,
-							"y": -0.5292,
-							"z": 6.3935
+							"y": 0.1631,
+							"z": 8.011
 						}
 					},
 					"Object": {
@@ -131,7 +122,7 @@
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": -0.0198,
+							"x": -0.0197,
 							"y": 0.5606,
 							"z": 3.294
 						}
@@ -184,7 +175,7 @@
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": 0.0172,
+							"x": 0.0174,
 							"y": -0.1186,
 							"z": 0.1545
 						},
@@ -194,7 +185,7 @@
 							"z": 3.0876
 						},
 						"Scale": {
-							"x": 1.0003,
+							"x": 1.0004,
 							"y": 1.0,
 							"z": 1.0
 						}
@@ -210,7 +201,7 @@
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": 1.6584,
+							"x": 1.6585,
 							"y": 0.9363,
 							"z": -8.939
 						},
@@ -231,7 +222,7 @@
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": -0.0167,
+							"x": -0.0165,
 							"y": 0.1187,
 							"z": -0.1542
 						},
@@ -241,7 +232,7 @@
 							"z": 0.0543
 						},
 						"Scale": {
-							"x": 1.0003,
+							"x": 1.0004,
 							"y": 1.0,
 							"z": 1.0
 						}
@@ -333,7 +324,6 @@
 			},
 			"Node": {
 				"Uid": 18,
-				"Enabled": false,
 				"Name": "aircraft_col_shape_wing_l",
 				"Components": {
 					"Transform": {
@@ -344,7 +334,7 @@
 						},
 						"Rotation": {
 							"x": -0.0,
-							"y": -0.2005,
+							"y": -0.2003,
 							"z": 0.0001
 						}
 					},
@@ -360,7 +350,7 @@
 					"Transform": {
 						"Position": {
 							"x": -2.8101,
-							"y": 0.0148,
+							"y": 0.0149,
 							"z": -1.86
 						}
 					},
@@ -385,7 +375,7 @@
 							"z": -3.1414
 						},
 						"Scale": {
-							"x": 1.0003,
+							"x": 1.0004,
 							"y": 1.0,
 							"z": 1.0
 						}
@@ -411,7 +401,7 @@
 							"z": 3.1416
 						},
 						"Scale": {
-							"x": 1.0003,
+							"x": 1.0004,
 							"y": 1.0,
 							"z": 1.0
 						}
@@ -444,7 +434,7 @@
 					"Transform": {
 						"Position": {
 							"x": 2.8095,
-							"y": 0.0148,
+							"y": 0.0149,
 							"z": -1.86
 						}
 					},
@@ -481,8 +471,8 @@
 					"Transform": {
 						"Position": {
 							"x": -0.0798,
-							"y": 0.0217,
-							"z": -0.1572
+							"y": 0.0219,
+							"z": -0.1571
 						},
 						"Rotation": {
 							"x": 0.0001,
@@ -497,7 +487,6 @@
 			},
 			"Node": {
 				"Uid": 26,
-				"Enabled": false,
 				"Name": "aircraft_col_shape_wing_r",
 				"Components": {
 					"Transform": {
@@ -508,7 +497,7 @@
 						},
 						"Rotation": {
 							"x": -0.0,
-							"y": 0.201,
+							"y": 0.2012,
 							"z": -0.0
 						}
 					},
@@ -588,24 +577,19 @@
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": 2.2016,
-							"y": 19.2958,
-							"z": 2.9482
+							"x": -27.3453,
+							"y": 12.0011,
+							"z": 1.355
 						},
 						"Rotation": {
-							"x": 0.5752,
-							"y": 1.6726,
+							"x": 0.3854,
+							"y": 1.5721,
 							"z": 0.0
-						},
-						"Scale": {
-							"x": 1.0,
-							"y": 1.0,
-							"z": 1.0
 						}
 					},
 					"Camera": {
 						"ZFar": 50000.0,
-						"ZNear": 0.1001
+						"ZNear": 0.1002
 					}
 				}
 			}

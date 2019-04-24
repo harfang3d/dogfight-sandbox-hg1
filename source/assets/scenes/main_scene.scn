@@ -4,14 +4,14 @@
 			"Environment": {
 				"AmbientColor": {
 					"b": 0.553,
-					"g": 0.6158,
-					"r": 0.4041
+					"g": 0.6159,
+					"r": 0.4042
 				},
 				"AmbientIntensity": 0.5,
 				"BackgroundColor": {
 					"b": 0.9248,
-					"g": 0.8389,
-					"r": 0.5648
+					"g": 0.839,
+					"r": 0.5649
 				},
 				"FogColor": {
 					"b": 1.0,
@@ -22,19 +22,19 @@
 		},
 		"Nodes": {
 			"Node": {
-				"Uid": 31,
+				"Uid": 1,
 				"DoNotInstantiate": true,
-				"Name": "_default_camera",
+				"Name": "Camera",
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": -248.1549,
-							"y": 140.5333,
-							"z": -15.619
+							"x": -39.7997,
+							"y": 31.4749,
+							"z": -100.4076
 						},
 						"Rotation": {
-							"x": 0.4477,
-							"y": 1.4601,
+							"x": 0.5506,
+							"y": 0.7072,
 							"z": 0.0
 						},
 						"Scale": {
@@ -45,19 +45,19 @@
 					},
 					"Camera": {
 						"ZFar": 50000.0,
-						"ZNear": 0.1001
+						"ZNear": 0.1002
 					}
 				}
 			},
 			"Node": {
-				"Uid": 32,
+				"Uid": 2,
 				"Name": "Sun",
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": -1.1157,
-							"y": 23.0448,
-							"z": -11.0109
+							"x": 0.0,
+							"y": 60.0,
+							"z": 0.0
 						},
 						"Rotation": {
 							"x": 0.4364,
@@ -67,20 +67,19 @@
 					},
 					"Light": {
 						"Model": "Linear",
-						"Range": 100.0,
 						"Shadow": "ShadowMap"
 					}
 				}
 			},
 			"Node": {
-				"Uid": 33,
+				"Uid": 3,
 				"Name": "SkyLigth",
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": 7.9581,
-							"y": -13.6951,
-							"z": 15.5042
+							"x": 0.0,
+							"y": 50.0,
+							"z": 0.0
 						},
 						"Rotation": {
 							"x": 0.9425,
@@ -91,8 +90,8 @@
 					"Light": {
 						"DiffuseColor": {
 							"b": 0.553,
-							"g": 0.6158,
-							"r": 0.4041
+							"g": 0.6159,
+							"r": 0.4042
 						},
 						"DiffuseIntensity": 0.5,
 						"Model": "Linear",
@@ -101,7 +100,7 @@
 				}
 			},
 			"Node": {
-				"Uid": 34,
+				"Uid": 4,
 				"Name": "Plane",
 				"Components": {
 					"Transform": {},
@@ -111,12 +110,12 @@
 								"Parameter": {
 									"Name": "width",
 									"Type": "Float",
-									"Value": 5000.0
+									"Value": 10000.0
 								},
 								"Parameter": {
 									"Name": "length",
 									"Type": "Float",
-									"Value": 5000.0
+									"Value": 10000.0
 								},
 								"Parameter": {
 									"Name": "subdiv_x",
@@ -140,18 +139,92 @@
 				}
 			},
 			"Node": {
-				"Uid": 42,
+				"Uid": 5,
 				"Name": "aircraft_carrier",
+				"Components": {
+					"Transform": {},
+					"Instance": {
+						"Path": "assets/aircraft_carrier/aircraft_carrier.scn"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 6,
+				"Name": "island",
 				"Components": {
 					"Transform": {
 						"Position": {
 							"x": 0.0,
-							"y": -11.3518,
-							"z": 0.0
+							"y": -60.0,
+							"z": 3000.0
 						}
 					},
 					"Instance": {
-						"Path": "assets/aircraft_carrier/aircraft_carrier.scn"
+						"Path": "assets/island/island.scn"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 7,
+				"Name": "weaponry",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -26.4659,
+							"y": 18.6894,
+							"z": -85.1206
+						}
+					},
+					"Instance": {
+						"Path": "assets/weaponry/weaponry.scn"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 34,
+				"Name": "aircraft",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -11.8158,
+							"y": 19.4,
+							"z": -90.9527
+						}
+					},
+					"Instance": {
+						"Path": "assets/aircraft/aircraft.scn"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 65,
+				"Name": "ennemyaircraft",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": 12.751,
+							"y": 19.4,
+							"z": -93.538
+						}
+					},
+					"Instance": {
+						"Path": "assets/ennemyaircraft/ennemy_aircraft.scn"
+					}
+				}
+			},
+			"Node": {
+				"Uid": 96,
+				"Name": "feed_backs",
+				"Components": {
+					"Transform": {
+						"Position": {
+							"x": -23.9132,
+							"y": 18.8619,
+							"z": -84.7538
+						}
+					},
+					"Instance": {
+						"Path": "assets/feed_backs/feed_backs.scn"
 					}
 				}
 			}
@@ -160,7 +233,7 @@
 		"Skeletons": {},
 		"State": {
 			"CurrentCamera": {
-				"Uid": 31
+				"Uid": 1
 			}
 		},
 		"Takes": {}

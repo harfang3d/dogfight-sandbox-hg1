@@ -1,6 +1,12 @@
 {
 	"Material": {
-		"Shader": "@core/surfaces/default.isl",
-		"MaterialValues": {}
+		"Shader": "assets/surfaces/teint_alpha_self.isl",
+		"MaterialValues": {
+			"Value": {
+				"Name": "teint",
+				"Type": "vec4",
+				"Value": "vec4(1.000000, 0.200000, 0.200000, 0.100000)"
+			}
+		}
 	}
 }
