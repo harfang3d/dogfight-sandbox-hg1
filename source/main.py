@@ -123,17 +123,20 @@ def init_game(plus):
 	init_scene(plus)
 	Aircraft.main_node = Main.main_node
 
+
+
+
 	Main.audio = hg.CreateMixer()
 	Main.audio.Open()
 
 	# Clear color alpha = 0
-	Main.scene.GetEnvironment().SetBackgroundColor(hg.Color(0, 0, 0, 0))
+	#Main.scene.GetEnvironment().SetBackgroundColor(hg.Color(0, 0, 0, 0))
 	# Aircrafts & Cie:
 	Main.p1_aircraft = Aircraft("TangoCharly", 1, "aircraft", plus, Main.scene, hg.Vector3(0, 3000, 0),
 								hg.Vector3(0, 0, 0))
 	Main.p2_aircraft = Aircraft("Zorglub", 2, "ennemyaircraft", plus, Main.scene, hg.Vector3(4000, 3000, 4000),
 								hg.Vector3(0, 0, 0))
-	Main.carrier = Carrier("Charles_de_Gaules", 1, plus, Main.scene)
+	Main.carrier = Carrier("Charles_de_Gaules", 1, "aircraft_carrier" plus, Main.scene)
 
 	for i in range(4):
 		Main.p1_missiles[i] = Missile("sidewinder_" + str(i), 1, plus, Main.scene, Main.audio,
@@ -297,35 +300,33 @@ def load_fps_matrix(fps):
 	if pos is not None and rot is not None:
 		fps.Reset(pos, rot)
 
+
 #============================================================================================================
 #                                           Scene & Game setups
 #============================================================================================================
 
 def init_scene(plus):
 	Main.scene = plus.NewScene()
-	Main.camera = plus.AddCamera(Main.scene, hg.Matrix4.TranslationMatrix(hg.Vector3(0, 10, -10)))
 
-	Main.camera.SetName("Camera")
-	Main.camera.GetCamera().SetZNear(1.)
-	Main.camera.GetCamera().SetZFar(40000)
+	plus.LoadScene(Main.scene,"assets/scenes/main_scene.scn")
+	Main.scene.UpdateAndCommitWaitAll()
+	Main.camera=Main.scene.GetNode("Camera")
+	Main.island = Main.scene.GetNode("island")
 
-	plus.LoadScene(Main.scene, "assets/aircraft/aircraft.scn")
-	plus.LoadScene(Main.scene, "assets/ennemyaircraft/ennemy_aircraft.scn")
-	plus.LoadScene(Main.scene, "assets/aircraft_carrier/aircraft_carrier.scn")
-	plus.LoadScene(Main.scene, "assets/island/island.scn")
-	plus.LoadScene(Main.scene, "assets/feed_backs/feed_backs.scn")
+	#Main.camera = plus.AddCamera(Main.scene, hg.Matrix4.TranslationMatrix(hg.Vector3(0, 10, -10)))
+	#Main.camera.SetName("Camera")
+	#Main.camera.GetCamera().SetZNear(1.)
+	#Main.camera.GetCamera().SetZFar(40000)
 
-	init_lights(plus)
+	#plus.LoadScene(Main.scene, "assets/aircraft/aircraft.scn")
+	#plus.LoadScene(Main.scene, "assets/ennemyaircraft/ennemy_aircraft.scn")
+	#plus.LoadScene(Main.scene, "assets/aircraft_carrier/aircraft_carrier.scn")
+	#plus.LoadScene(Main.scene, "assets/island/island.scn")
+	#plus.LoadScene(Main.scene, "assets/feed_backs/feed_backs.scn")
 
-	while not Main.scene.IsReady():  # Wait until scene is ready
-		#plus.UpdateScene(Main.scene, plus.UpdateClock())
-		Main.scene.Commit()
-		Main.scene.WaitCommit()
+	#init_lights(plus)
+	#Main.scene.UpdateAndCommitWaitAll()
 
-	#for i in range(256):
-	#   plus.UpdateScene(Main.scene, plus.UpdateClock())
-	#	Main.scene.Commit()
-	#	Main.scene.WaitCommit()
 
 	Main.satellite_camera = plus.AddCamera(Main.scene, hg.Matrix4.TranslationMatrix(hg.Vector3(0, 1000, 0)))
 	setup_satellite_camera(Main.satellite_camera)
@@ -336,9 +337,6 @@ def init_scene(plus):
 		clouds_parameters = json.loads(json_script)
 		Main.clouds = Clouds(plus, Main.scene, Main.scene.GetNode("Sun"), Main.resolution, clouds_parameters)
 
-	Main.island = Main.scene.GetNode("island")
-	Main.island.GetTransform().SetPosition(hg.Vector3(0, 0, 3000))
-	Main.island.GetTransform().SetRotation(hg.Vector3(0, 0, 0))
 
 	Main.sea_render_script = hg.RenderScript("assets/lua_scripts/sea_render.lua")
 	Main.sea_render_script.SetEnabled(False)
@@ -353,9 +351,7 @@ def init_scene(plus):
 	#Main.clouds_render_script=hg.LogicScript("assets/lua_scripts/clouds_render.lua")
 	#Main.scene.AddComponent(Main.clouds_render_script)
 
-	#plus.UpdateScene(Main.scene)
-	Main.scene.Commit()
-	Main.scene.WaitCommit()
+	Main.scene.UpdateAndCommitWaitAll()
 	load_scene_parameters()
 
 

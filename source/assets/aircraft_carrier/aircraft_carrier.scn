@@ -38,7 +38,7 @@
 			},
 			"Node": {
 				"Uid": 2,
-				"Name": "aircraft_carrier_radar",
+				"Name": "aircraft_carrier.radar",
 				"Components": {
 					"Transform": {
 						"Position": {
@@ -59,17 +59,17 @@
 			},
 			"Node": {
 				"Uid": 3,
-				"Name": "carrier_aircraft_start_point",
+				"Name": "aircraft_carrier.start_point",
 				"Components": {
 					"Transform": {
 						"Position": {
 							"x": 3.3535,
 							"y": 17.6041,
-							"z": -106.5645
+							"z": -106.5644
 						},
 						"Rotation": {
 							"x": -0.0,
-							"y": -0.1916,
+							"y": -0.1915,
 							"z": -0.0
 						}
 					},
@@ -133,9 +133,9 @@
 				"Components": {
 					"Transform": {
 						"Position": {
-							"x": -30.8637,
-							"y": 32.8246,
-							"z": -141.677
+							"x": -19.2263,
+							"y": 27.6607,
+							"z": -145.627
 						},
 						"Rotation": {
 							"x": 0.2101,

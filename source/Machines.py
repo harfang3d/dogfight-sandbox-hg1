@@ -50,6 +50,12 @@ class Destroyable_Machine:
 # =====================================================================================================
 
 class Missile(Destroyable_Machine):
+	parent_nodes = []
+
+	@classmethod
+	def init_Missile(cls,scene_library):
+		cls.parent_node.append()
+
 
 	def __init__(self, name, nationality, plus, scene, audio, missile_file_name, smoke_file_name_prefix,
 				 smoke_color: hg.Color = hg.Color.White, start_position=hg.Vector3.Zero,
@@ -1228,16 +1234,16 @@ class AircraftSFX:
 # =====================================================================================================
 
 class Carrier(Destroyable_Machine):
-	def __init__(self, name, nationality, plus, scene):
+	def __init__(self, name, nationality, id_string, plus, scene):
 		self.name = name
 		Destroyable_Machine.__init__(self, scene.GetNode("aircraft_carrier"), Destroyable_Machine.TYPE_SHIP,
 									 nationality)
 		self.activated = True
 		self.parent_node.GetTransform().SetPosition(hg.Vector3(0, 0, 0))
 		self.parent_node.GetTransform().SetRotation(hg.Vector3(0, 0, 0))
-		self.radar = scene.GetNode("aircraft_carrier_radar")
+		self.radar = scene.GetNode(id_string+".radar")
 		self.rigid, self.collisions = self.get_collisions(scene)
-		self.aircraft_start_point = scene.GetNode("carrier_aircraft_start_point")
+		self.aircraft_start_point = scene.GetNode(id_string+".start_point")
 		self.aircraft_start_point.RemoveComponent(self.aircraft_start_point.GetObject())
 
 	def hit(self, value):
