@@ -123,9 +123,6 @@ def init_game(plus):
 	init_scene(plus)
 	Aircraft.main_node = Main.main_node
 
-
-
-
 	Main.audio = hg.CreateMixer()
 	Main.audio.Open()
 
@@ -136,7 +133,7 @@ def init_game(plus):
 								hg.Vector3(0, 0, 0))
 	Main.p2_aircraft = Aircraft("Zorglub", 2, "ennemyaircraft", plus, Main.scene, hg.Vector3(4000, 3000, 4000),
 								hg.Vector3(0, 0, 0))
-	Main.carrier = Carrier("Charles_de_Gaules", 1, "aircraft_carrier" plus, Main.scene)
+	Main.carrier = Carrier("Charles_de_Gaules", 1, "aircraft_carrier", plus, Main.scene)
 
 	for i in range(4):
 		Main.p1_missiles[i] = Missile("sidewinder_" + str(i), 1, plus, Main.scene, Main.audio,
@@ -963,7 +960,6 @@ def control_views():
 #===========================================================================================================
 #                           Render flows
 #===========================================================================================================
-
 
 
 def renderScript_flow(plus, t,dts):
