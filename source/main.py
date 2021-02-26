@@ -34,7 +34,7 @@ class Main:
 	resolution = hg.Vector2(1600, 900)
 	antialiasing = 2
 	screenMode = hg.FullscreenMonitor1
-
+	
 	main_node = hg.Node()
 
 	controller = None
@@ -1102,7 +1102,7 @@ def init_start_phase():
 def start_phase(plus, delta_t):
 	dts = hg.time_to_sec_f(delta_t)
 	camera = Main.scene.GetNode("Camera")
-
+	global pp
 	# Main.fps.UpdateAndApplyToNode(camera, delta_t)
 	Main.camera_matrix = update_camera_follow(camera, dts)
 	Main.camera_v_move = camera_move * dts
@@ -1205,9 +1205,9 @@ def init_main_phase():
 
 	set_view(back_view)
 
-	Main.p1_aircraft.set_thrust_level(1)
+	Main.p1_aircraft.set_thrust_level(0.7)
 	# Main.p1_aircraft.set_brake_level(1)
-	Main.p1_aircraft.activate_post_combution()
+	# Main.p1_aircraft.activate_post_combution()
 
 	# p2 on carrier:
 	# Main.p2_aircraft.set_thrust_level(0)
@@ -1250,7 +1250,7 @@ def update_radial_post_process(acceleration):
 def main_phase(plus, delta_t):
 	dts = hg.time_to_sec_f(delta_t)
 	camera = Main.scene.GetNode("Camera")
-
+	
 	acc=Main.p1_aircraft.get_linear_acceleration()
 	noise_level = max(0, Main.p1_aircraft.get_linear_speed() * 3.6 / 2500 * 0.1 + pow(
 		min(1, abs(acc / 7)), 2) * 1)
@@ -1280,6 +1280,9 @@ def main_phase(plus, delta_t):
 	pk, rk, yk = control_aircraft_keyboard(dts, Main.p1_aircraft)
 	if Main.controller is not None:
 		pp, rp, yp = control_aircraft_paddle(dts, Main.p1_aircraft)
+
+	else:
+		pp, rp, yp = True, True, True
 
 	Main.p1_aircraft.stabilize(dts, pk & pp, yk & yp, rk & rp)
 	# Hud
