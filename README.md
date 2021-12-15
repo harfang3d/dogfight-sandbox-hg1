@@ -1,19 +1,19 @@
-# Dogfight (Air to air combat game)
+# Dogfight (Air to air combat simulation)
 
 ## WARNING
 This project is aimed at HARFANG® 3D engine version 1.x.x. It is now superseded by [HARFANG® 3D 2.0](https://www.harfang3d.com).
 If you still need to run this project, you will require to specifically deploy the HARFANG 1.2.0 Python wheel.
 
-Air to air combat game, created in Python 3 using the [HARFANG 3D framework](https://www.harfang3d.com).
+Air to air combat simulation, created in Python 3 using the [HARFANG 3D framework](https://www.harfang3d.com).
 
-The game features : 
+This project features : 
 * Ocean shader
 * Skydome shader
 * Volumetric clouds
 * AI-driven opponent
 
 
-The source code and the graphics assets are made available for studying purpose. However, you are free to fork this repository, extend the game or release anything that is based on it.
+The source code and the graphics assets are made available for studying purpose. However, you are free to fork this repository, extend the simulator or release anything that is based on it.
 
 ## How to run Dogfight
 1. Get [Python 3](https://www.python.org/downloads/)
