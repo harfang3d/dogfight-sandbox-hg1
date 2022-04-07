@@ -1,8 +1,12 @@
 # Dogfight (Air to air combat sandbox)
 
-## WARNING
-This project is aimed at HARFANG® 3D engine version 1.x.x. It is now superseded by [HARFANG® 3D 2.0](https://www.harfang3d.com).
-If you still need to run this project, you will require to specifically deploy the HARFANG 1.2.0 Python wheel.
+## :warning: WARNING :warning:
+This project is archived as it was based on HARFANG® 3D engine version 1.x.x that is now superseded by [HARFANG® 3D 2.0](https://www.harfang3d.com).
+If you still need to run this older version of the dogfight, you will require to specifically deploy the HARFANG 1.2.0 Python wheel.
+
+**Please check the new version of the Dogfight Sandbox:** https://github.com/harfang3d/dogfight-sandbox-hg2
+
+## Description
 
 Air to air combat simulation, created in Python 3 using the [HARFANG 3D framework](https://www.harfang3d.com).
 
